@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Alberto Lazo — Tech Lead based in Miami. Technology, business systems, insurance, automation, mobile GIS and software." />
+  <title>Alberto Lazo — Tech Lead</title>
+  <style>
+    :root {
+      --paper:#f1efe8;
+      --ink:#11110f;
+      --soft:#6f706a;
+      --line:rgba(17,17,15,.15);
+      --panel:#e7e4da;
+      --accent:#ff5c35;
+      --dark:#10100f;
+      --light:#f8f6ef;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height:1.45;
+    }
+    a{color:inherit}
+    .wrap{width:min(calc(100% - 40px),var(--max));margin:auto}
+
+    .topbar{
+      position:sticky;top:0;z-index:20;
+      background:rgba(241,239,232,.86);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;justify-content:space-between;align-items:center;
+      min-height:68px;gap:24px;
+    }
+    .brand{
+      font-weight:800;text-decoration:none;letter-spacing:-.04em;font-size:1.05rem
+    }
+    .navlinks{display:flex;align-items:center;gap:24px}
+    .navlinks a{text-decoration:none;font-size:.92rem}
+    .pill{
+      display:inline-flex;align-items:center;justify-content:center;
+      border:1px solid var(--ink);border-radius:999px;
+      padding:10px 15px;text-decoration:none;font-weight:700;
+      transition:.2s ease;
+    }
+    .pill:hover{background:var(--ink);color:var(--paper)}
+
+    .hero{
+      min-height:83vh;
+      display:flex;align-items:flex-end;
+      padding:76px 0 42px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.5fr .5fr;
+      align-items:end;
+      gap:48px;
+    }
+    .eyebrow{
+      text-transform:uppercase;
+      font-size:.76rem;
+      letter-spacing:.17em;
+      font-weight:800;
+      margin-bottom:18px;
+    }
+    h1{
+      margin:0;
+      font-size:clamp(4rem,10vw,9.5rem);
+      line-height:.82;
+      letter-spacing:-.075em;
+      max-width:950px;
+      font-weight:850;
+    }
+    .hero-mark{color:var(--accent)}
+    .hero-side{
+      padding-bottom:8px;
+      color:var(--soft);
+      font-size:1.03rem;
+      max-width:310px;
+    }
+    .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+
+    .statement{
+      background:var(--dark);
+      color:var(--light);
+      padding:110px 0;
+    }
+    .statement p{
+      margin:0;
+      font-size:clamp(2rem,5vw,5rem);
+      line-height:1.03;
+      letter-spacing:-.055em;
+      max-width:1050px;
+    }
+    .statement em{color:var(--accent);font-style:normal}
+
+    section{padding:100px 0}
+    .section-head{
+      display:grid;
+      grid-template-columns:180px 1fr;
+      gap:36px;
+      align-items:start;
+      margin-bottom:54px;
+    }
+    .kicker{
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+      font-weight:800;
+    }
+    h2{
+      margin:0;
+      font-size:clamp(2.8rem,6vw,6rem);
+      line-height:.95;
+      letter-spacing:-.06em;
+      max-width:900px;
+    }
+
+    .principles{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      border-top:1px solid var(--line);
+      border-left:1px solid var(--line);
+    }
+    .principle{
+      min-height:280px;
+      padding:28px;
+      border-right:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .principle .num{font-size:.8rem;color:var(--soft)}
+    .principle h3{font-size:1.45rem;margin:0 0 10px;letter-spacing:-.03em}
+    .principle p{margin:0;color:var(--soft)}
+
+    .work-list{border-top:1px solid var(--line)}
+    .work{
+      display:grid;
+      grid-template-columns:1fr .65fr .35fr;
+      gap:28px;
+      padding:28px 0;
+      border-bottom:1px solid var(--line);
+      align-items:start;
+    }
+    .work h3{font-size:1.55rem;margin:0;letter-spacing:-.035em}
+    .work .company{color:var(--soft);margin-top:4px}
+    .work .desc{color:var(--soft);margin:0}
+    .work .date{text-align:right;color:var(--soft);font-size:.9rem}
+
+    .featured{
+      background:var(--panel);
+    }
+    .case{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      border-top:1px solid var(--line);
+      padding:32px 0 0;
+      gap:40px;
+    }
+    .case + .case{margin-top:64px}
+    .case-label{
+      font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;font-weight:800
+    }
+    .case h3{
+      font-size:clamp(2rem,4vw,4.5rem);
+      line-height:.95;
+      letter-spacing:-.055em;
+      margin:12px 0 16px;
+    }
+    .case p{color:var(--soft);max-width:580px}
+    .case-meta{
+      display:grid;grid-template-columns:1fr 1fr;gap:12px;
+      align-content:end;
+    }
+    .meta{
+      border-top:1px solid var(--line);
+      padding-top:12px;
+      font-size:.9rem;
+    }
+    .meta span{display:block;color:var(--soft);font-size:.78rem;margin-bottom:3px}
+
+    .skills{
+      display:flex;flex-wrap:wrap;gap:10px;
+      max-width:900px;
+    }
+    .skill{
+      border:1px solid var(--ink);
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:.92rem;
+    }
+
+    .contact{
+      background:var(--accent);
+      color:#130e0c;
+      padding:90px 0;
+    }
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:48px;
+      align-items:end;
+    }
+    .contact h2{max-width:820px}
+    .contact p{max-width:480px;font-size:1.05rem}
+    .contact-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+    .contact .pill{border-color:#130e0c}
+
+    footer{
+      background:var(--dark);color:#b9b7af;
+      padding:28px 0;
+      font-size:.88rem;
+    }
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* Responsive refinements */
+    @media (max-width: 1100px){
+      .wrap{width:min(calc(100% - 32px),var(--max))}
+      h1{font-size:clamp(4rem,9vw,8rem)}
+      .hero-grid{grid-template-columns:1.3fr .7fr;gap:34px}
+      .principle{min-height:250px}
+      .case{gap:28px}
+    }
+
+    @media (max-width: 900px){
+      .nav{min-height:62px}
+      .navlinks{gap:12px}
+      .navlinks a:not(.pill){display:none}
+      .hero{min-height:auto;padding:88px 0 56px;align-items:flex-start}
+      .hero-grid,.section-head,.case,.contact-grid{grid-template-columns:1fr}
+      .hero-grid{gap:28px}
+      .hero-side{max-width:620px;font-size:1rem}
+      .statement{padding:76px 0}
+      section{padding:72px 0}
+      .section-head{gap:14px;margin-bottom:38px}
+      .principles{grid-template-columns:1fr;border-left:0}
+      .principle{min-height:auto;padding:24px 0;border-right:0}
+      .work{grid-template-columns:1fr;gap:10px;padding:24px 0}
+      .work .date{text-align:left}
+      .case{padding-top:26px}
+      .case + .case{margin-top:50px}
+      .case-meta{grid-template-columns:1fr 1fr;margin-top:8px}
+      .contact-grid{gap:26px}
+      .contact{padding:72px 0}
+    }
+
+    @media (max-width: 640px){
+      .wrap{width:min(calc(100% - 24px),var(--max))}
+      .nav{min-height:58px}
+      .brand{font-size:.98rem}
+      .navlinks .pill{padding:8px 12px;font-size:.85rem}
+      .hero{padding:64px 0 42px}
+      .eyebrow{font-size:.68rem;letter-spacing:.13em;line-height:1.45;margin-bottom:14px}
+      h1{font-size:clamp(3.2rem,16vw,5.5rem);line-height:.88;letter-spacing:-.065em}
+      .hero-side{font-size:.98rem}
+      .hero-actions,.contact-links{flex-direction:column;align-items:stretch}
+      .hero-actions .pill,.contact-links .pill{width:100%;min-height:46px}
+      .statement{padding:62px 0}
+      .statement p{font-size:clamp(1.8rem,9vw,3.15rem)}
+      section{padding:58px 0}
+      h2{font-size:clamp(2.45rem,13vw,4.4rem)}
+      .principle h3{font-size:1.3rem}
+      .work h3{font-size:1.32rem}
+      .work .desc,.work .company,.work .date{font-size:.92rem}
+      .case h3{font-size:clamp(2.2rem,12vw,3.6rem)}
+      .case-meta{grid-template-columns:1fr;gap:16px}
+      .meta{font-size:.88rem}
+      .skills{gap:8px}
+      .skill{padding:9px 12px;font-size:.86rem}
+      .contact{padding:60px 0}
+      .contact p{font-size:1rem}
+      .footer-inner{flex-direction:column;gap:6px}
+    }
+
+    @media (max-width: 380px){
+      .wrap{width:min(calc(100% - 20px),var(--max))}
+      .brand{font-size:.92rem}
+      .navlinks .pill{padding:7px 10px;font-size:.8rem}
+      h1{font-size:clamp(2.9rem,17vw,4.5rem)}
+      .statement p{font-size:clamp(1.65rem,9vw,2.6rem)}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      .reveal{opacity:1 !important;transform:none !important;transition:none !important}
+      .pill{transition:none}
+    }
+
+
+    .lang-switch{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      padding:3px;
+      border:1px solid var(--line);
+      border-radius:999px;
+    }
+    .lang-btn{
+      appearance:none;
+      border:0;
+      background:transparent;
+      color:var(--ink);
+      border-radius:999px;
+      padding:7px 10px;
+      font:inherit;
+      font-size:.78rem;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .lang-btn.active{
+      background:var(--ink);
+      color:var(--paper);
+    }
+    @media(max-width:640px){
+      .navlinks{gap:7px}
+      .lang-btn{padding:6px 8px;font-size:.72rem}
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top">ALBERTO LAZO</a>
+      <div class="navlinks">
+        <a href="#experience"><span data-i18n="navExperience">Experience</span></a>
+        <a href="#work"><span data-i18n="navWork">Work</span></a>
+        <a href="#skills"><span data-i18n="navSkills">Skills</span></a>
+        <div class="lang-switch" aria-label="Language selector">
+          <button class="lang-btn active" type="button" data-lang-button="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-button="es">ES</button>
+        </div>
+        <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow" data-i18n="eyebrow">Tech Lead · Miami, Florida · U.S. Permanent Resident</div>
+          <h1 data-i18n-html="heroTitle">Technology with <span class="hero-mark">business sense.</span></h1>
+        </div>
+        <div class="hero-side">
+          <span data-i18n="heroBody">I work where software, operations and business decisions meet — translating real-world problems into systems teams can actually use.</span>
+          <div class="hero-actions">
+            <a class="pill" href="mailto:AlbertoLazoB@gmail.com"><span data-i18n="emailMe">Email me</span></a>
+            <a class="pill" href="https://www.linkedin.com/in/alberto-lazo/" target="_blank">LinkedIn ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement">
+      <div class="wrap reveal">
+        <p>
+          <span data-i18n-html="statement">I’m not interested in technology for its own sake. I’m interested in <em>what it changes</em> — faster decisions, better operations, lower friction and stronger businesses.</span>
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="kicker" data-i18n="howIWork">How I work</div>
+          <h2 data-i18n="howTitle">From ambiguous problem to useful system.</h2>
+        </div>
+
+        <div class="principles reveal">
+          <article class="principle">
+            <div class="num">01</div>
+            <div>
+              <h3 data-i18n="p1Title">Understand the business first.</h3>
+              <p data-i18n="p1Body">I’ve worked directly with managers and clients, gathered requirements and translated operational needs into concrete technical decisions.</p>
+            </div>
+          </article>
+          <article class="principle">
+            <div class="num">02</div>
+            <div>
+              <h3 data-i18n="p2Title">Design for real operations.</h3>
+              <p data-i18n="p2Body">My work has touched insurance claims, mobile field data, service management, reporting and industrial process-control environments.</p>
+            </div>
+          </article>
+          <article class="principle">
+            <div class="num">03</div>
+            <div>
+              <h3 data-i18n="p3Title">Lead across disciplines.</h3>
+              <p data-i18n="p3Body">I’ve led both technical and operational team members, which helps me connect engineering decisions with how work actually gets done.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="kicker" data-i18n="experienceKicker">Experience</div>
+          <h2 data-i18n="experienceTitle">Insurance. Software. Mining. Operations.</h2>
+        </div>
+
+        <div class="work-list reveal">
+          <article class="work">
+            <div>
+              <h3>Professional Services Intern</h3>
+              <div class="company">Datapro · Miami</div>
+            </div>
+            <p class="desc" data-i18n="expDatapro">Implemented Jira Service Management for a maintenance team, diagnosed workflow issues and connected Jira data to Power BI reporting.</p>
+            <div class="date">Mar 2025 — Aug 2025</div>
+          </article>
+
+          <article class="work">
+            <div>
+              <h3>Project Manager</h3>
+              <div class="company">Pacífico Seguros</div>
+            </div>
+            <p class="desc" data-i18n="expPacificoPM">Defined business rules for an AI-assisted transport-claims workflow, including image classification criteria and inference logic around claimed costs and taxes.</p>
+            <div class="date">2006 — Feb 2025</div>
+          </article>
+
+          <article class="work">
+            <div>
+              <h3>Android Software Developer</h3>
+              <div class="company">Pacífico Seguros</div>
+            </div>
+            <p class="desc" data-i18n="expPacificoAndroid">Designed and implemented a mobile land-survey application for agricultural insurance using Java, geospatial data, web services and mapping tools.</p>
+            <div class="date">Aug 2020 — Dec 2020</div>
+          </article>
+
+          <article class="work">
+            <div>
+              <h3>Process Control Intern</h3>
+              <div class="company">Southern Peru Copper Corporation</div>
+            </div>
+            <p class="desc" data-i18n="expSouthern">Worked on a concentrator-plant alarm system using Modbus, Visual Basic and SMS escalation logic for industrial operations.</p>
+            <div class="date">Oct 2006 — Dec 2006</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="featured">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="kicker" data-i18n="selectedWork">Selected work</div>
+          <h2 data-i18n="projectsTitle">Projects that show the range.</h2>
+        </div>
+
+        <article class="case reveal">
+          <div>
+            <div class="case-label">Mobile GIS / Insurance</div>
+            <h3>Land Survey Platform</h3>
+            <p data-i18n="caseLand">A field application for agricultural insurance that used mobile geolocation and geographic data
+              to survey insured land. The project connected an operational insurance need with a practical mobile solution.</p>
+          </div>
+          <div class="case-meta">
+            <div class="meta"><span>Stack</span>Java · Google Maps · GeoJSON · Room · Retrofit</div>
+            <div class="meta"><span>Domain</span>Agricultural insurance / GIS</div>
+            <div class="meta"><span>Role</span>Design + implementation</div>
+            <div class="meta"><span>Focus</span>Field data collection</div>
+          </div>
+        </article>
+
+        <article class="case reveal">
+          <div>
+            <div class="case-label">Business Systems / Operations</div>
+            <h3>Jira Service Management</h3>
+            <p data-i18n="caseJira">A maintenance-service implementation focused on making workflows usable, diagnosing problems in the existing setup,
+              and improving reporting through Power BI integration.</p>
+          </div>
+          <div class="case-meta">
+            <div class="meta"><span>Tools</span>Jira Service Management · Power BI</div>
+            <div class="meta"><span>Domain</span>Maintenance operations</div>
+            <div class="meta"><span>Role</span>Implementation + diagnosis</div>
+            <div class="meta"><span>Focus</span>Workflow + reporting</div>
+          </div>
+        </article>
+
+        <article class="case reveal">
+          <div>
+            <div class="case-label">Android / Personal Project</div>
+            <h3>EcoEats</h3>
+            <p data-i18n="caseEco">An Android application built with modern Kotlin tooling and Clean Architecture principles,
+              showing hands-on familiarity with contemporary Android development.</p>
+            <p><a href="https://github.com/betolix" target="_blank">View GitHub ↗</a></p>
+          </div>
+          <div class="case-meta">
+            <div class="meta"><span>Stack</span>Kotlin · Compose · Hilt · Room · Retrofit · Firebase</div>
+            <div class="meta"><span>Architecture</span>Clean Architecture</div>
+            <div class="meta"><span>Type</span>Portfolio project</div>
+            <div class="meta"><span>Focus</span>Modern Android</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="kicker" data-i18n="capabilities">Capabilities</div>
+          <h2 data-i18n="skillsTitle">Technical enough to build. Business-minded enough to prioritize.</h2>
+        </div>
+
+        <div class="skills reveal">
+          <span class="skill">Kotlin</span>
+          <span class="skill">Java</span>
+          <span class="skill">Android</span>
+          <span class="skill">C++</span>
+          <span class="skill">Python</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">Node.js</span>
+          <span class="skill">REST APIs</span>
+          <span class="skill">SQL</span>
+          <span class="skill">PostgreSQL</span>
+          <span class="skill">Linux / Unix / FreeBSD</span>
+          <span class="skill">Git</span>
+          <span class="skill">Jira</span>
+          <span class="skill">Power BI</span>
+          <span class="skill">GIS / GeoJSON</span>
+          <span class="skill">Requirements Gathering</span>
+          <span class="skill">Process Design</span>
+          <span class="skill">Architecture Decisions</span>
+          <span class="skill">Team Leadership</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <div class="wrap contact-grid reveal">
+        <div>
+          <div class="kicker" data-i18n="letsTalk">Let’s talk</div>
+          <h2 data-i18n="contactTitle">Looking for the next problem worth solving.</h2>
+        </div>
+        <div>
+          <p>
+            <span data-i18n="contactBody">I’m based in Miami and authorized to work in the United States without employer sponsorship. I’m targeting Tech Lead and technology leadership roles where business impact matters.</span>
+          </p>
+          <div class="contact-links">
+            <a class="pill" href="mailto:AlbertoLazoB@gmail.com">AlbertoLazoB@gmail.com</a>
+            <div class="lang-switch" aria-label="Language selector">
+          <button class="lang-btn active" type="button" data-lang-button="en">EN</button>
+          <button class="lang-btn" type="button" data-lang-button="es">ES</button>
+        </div>
+        <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
+            <a class="pill" href="https://github.com/betolix" target="_blank">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© 2026 Alberto Lazo</span>
+      <span><span data-i18n="footerLocation">Miami, Florida · English / Spanish</span></span>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+  <script>
+    const translations = {
+      en: {
+        pageTitle: "Alberto Lazo — Tech Lead",
+        navExperience: "Experience",
+        navWork: "Work",
+        navSkills: "Skills",
+        resume: "Résumé ↗",
+        eyebrow: "Tech Lead · Miami, Florida · U.S. Permanent Resident",
+        heroTitle: 'Technology with <span class="hero-mark">business sense.</span>',
+        heroBody: "I work where software, operations and business decisions meet — translating real-world problems into systems teams can actually use.",
+        emailMe: "Email me",
+        statement: "I’m not interested in technology for its own sake. I’m interested in <em>what it changes</em> — faster decisions, better operations, lower friction and stronger businesses.",
+        howIWork: "How I work",
+        howTitle: "From ambiguous problem to useful system.",
+        p1Title: "Understand the business first.",
+        p1Body: "I’ve worked directly with managers and clients, gathered requirements and translated operational needs into concrete technical decisions.",
+        p2Title: "Design for real operations.",
+        p2Body: "My work has touched insurance claims, mobile field data, service management, reporting and industrial process-control environments.",
+        p3Title: "Lead across disciplines.",
+        p3Body: "I’ve led both technical and operational team members, which helps me connect engineering decisions with how work actually gets done.",
+        experienceKicker: "Experience",
+        experienceTitle: "Insurance. Software. Mining. Operations.",
+        expDatapro: "Implemented Jira Service Management for a maintenance team, diagnosed workflow issues and connected Jira data to Power BI reporting.",
+        expPacificoPM: "Defined business rules for an AI-assisted transport-claims workflow, including image classification criteria and inference logic around claimed costs and taxes.",
+        expPacificoAndroid: "Designed and implemented a mobile land-survey application for agricultural insurance using Java, geospatial data, web services and mapping tools.",
+        expSouthern: "Worked on a concentrator-plant alarm system using Modbus, Visual Basic and SMS escalation logic for industrial operations.",
+        selectedWork: "Selected work",
+        projectsTitle: "Projects that show the range.",
+        caseLand: "A field application for agricultural insurance that used mobile geolocation and geographic data to survey insured land. The project connected an operational insurance need with a practical mobile solution.",
+        caseJira: "A maintenance-service implementation focused on making workflows usable, diagnosing problems in the existing setup, and improving reporting through Power BI integration.",
+        caseEco: "An Android application built with modern Kotlin tooling and Clean Architecture principles, showing hands-on familiarity with contemporary Android development.",
+        capabilities: "Capabilities",
+        skillsTitle: "Technical enough to build. Business-minded enough to prioritize.",
+        letsTalk: "Let’s talk",
+        contactTitle: "Looking for the next problem worth solving.",
+        contactBody: "I’m based in Miami and authorized to work in the United States without employer sponsorship. I’m targeting Tech Lead and technology leadership roles where business impact matters.",
+        footerLocation: "Miami, Florida · English / Spanish"
+      },
+      es: {
+        pageTitle: "Alberto Lazo — Tech Lead",
+        navExperience: "Experiencia",
+        navWork: "Proyectos",
+        navSkills: "Habilidades",
+        resume: "CV ↗",
+        eyebrow: "Tech Lead · Miami, Florida · Residente permanente de EE. UU.",
+        heroTitle: 'Tecnología con <span class="hero-mark">sentido de negocio.</span>',
+        heroBody: "Trabajo en el punto donde se encuentran el software, las operaciones y las decisiones de negocio, convirtiendo problemas reales en sistemas que los equipos pueden utilizar.",
+        emailMe: "Contáctame",
+        statement: "No me interesa la tecnología por la tecnología misma. Me interesa <em>lo que puede cambiar</em>: decisiones más rápidas, mejores operaciones, menos fricción y negocios más sólidos.",
+        howIWork: "Cómo trabajo",
+        howTitle: "De un problema ambiguo a un sistema útil.",
+        p1Title: "Primero, entender el negocio.",
+        p1Body: "He trabajado directamente con gerentes y clientes, levantando requerimientos y convirtiendo necesidades operativas en decisiones técnicas concretas.",
+        p2Title: "Diseñar para operaciones reales.",
+        p2Body: "Mi experiencia incluye reclamos de seguros, captura móvil de datos de campo, gestión de servicios, reportes y entornos industriales de control de procesos.",
+        p3Title: "Liderar entre distintas disciplinas.",
+        p3Body: "He liderado perfiles técnicos y operativos, lo que me permite conectar las decisiones de ingeniería con la manera en que el trabajo realmente se ejecuta.",
+        experienceKicker: "Experiencia",
+        experienceTitle: "Seguros. Software. Minería. Operaciones.",
+        expDatapro: "Implementé Jira Service Management para un equipo de mantenimiento, diagnostiqué problemas en los flujos existentes y conecté los datos de Jira con reportes en Power BI.",
+        expPacificoPM: "Definí reglas de negocio para un flujo de reclamos de transporte asistido por IA, incluyendo criterios de clasificación de imágenes y lógica de inferencia sobre costos reclamados e impuestos.",
+        expPacificoAndroid: "Diseñé e implementé una aplicación móvil para levantamiento de terrenos en seguros agrícolas usando Java, datos geoespaciales, servicios web y herramientas de mapas.",
+        expSouthern: "Trabajé en un sistema de alarmas para una planta concentradora utilizando Modbus, Visual Basic y lógica de escalamiento mediante SMS para operaciones industriales.",
+        selectedWork: "Proyectos seleccionados",
+        projectsTitle: "Proyectos que muestran mi alcance.",
+        caseLand: "Aplicación de campo para seguros agrícolas que utilizaba geolocalización móvil y datos geográficos para levantar terrenos asegurados. El proyecto conectó una necesidad operativa de seguros con una solución móvil práctica.",
+        caseJira: "Implementación para servicios de mantenimiento enfocada en crear flujos utilizables, diagnosticar problemas de la configuración existente y mejorar los reportes mediante la integración con Power BI.",
+        caseEco: "Aplicación Android desarrollada con herramientas modernas de Kotlin y principios de Clean Architecture, que demuestra experiencia práctica con desarrollo Android contemporáneo.",
+        capabilities: "Capacidades",
+        skillsTitle: "Lo suficientemente técnico para construir. Con visión de negocio para priorizar.",
+        letsTalk: "Hablemos",
+        contactTitle: "Buscando el próximo problema que valga la pena resolver.",
+        contactBody: "Estoy basado en Miami y autorizado para trabajar en Estados Unidos sin patrocinio del empleador. Busco roles de Tech Lead y liderazgo tecnológico donde el impacto en el negocio sea importante.",
+        footerLocation: "Miami, Florida · Inglés / Español"
+      }
+    };
+
+    function setLanguage(lang) {
+      const dict = translations[lang] || translations.en;
+      document.documentElement.lang = lang;
+      document.title = dict.pageTitle;
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.dataset.i18n;
+        if (dict[key] !== undefined) el.textContent = dict[key];
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach(el => {
+        const key = el.dataset.i18nHtml;
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+      document.querySelectorAll("[data-lang-button]").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.langButton === lang);
+        btn.setAttribute("aria-pressed", btn.dataset.langButton === lang ? "true" : "false");
+      });
+      try { localStorage.setItem("alberto-site-language", lang); } catch(e) {}
+    }
+
+    document.querySelectorAll("[data-lang-button]").forEach(btn => {
+      btn.addEventListener("click", () => setLanguage(btn.dataset.langButton));
+    });
+
+    let saved = null;
+    try { saved = localStorage.getItem("alberto-site-language"); } catch(e) {}
+    const initialLang = saved || ((navigator.language || "").toLowerCase().startsWith("es") ? "es" : "en");
+    setLanguage(initialLang);
+  </script>
+
+</body>
+</html>
