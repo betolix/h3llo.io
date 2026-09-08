@@ -329,6 +329,76 @@
       .lang-btn{padding:6px 8px;font-size:.72rem}
     }
 
+
+    .theme-toggle{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      padding:3px;
+      border:1px solid var(--line);
+      border-radius:999px;
+    }
+    .theme-btn{
+      appearance:none;
+      border:0;
+      background:transparent;
+      color:var(--ink);
+      border-radius:999px;
+      padding:7px 9px;
+      font:inherit;
+      font-size:.78rem;
+      font-weight:800;
+      cursor:pointer;
+      line-height:1;
+    }
+    .theme-btn.active{
+      background:var(--ink);
+      color:var(--paper);
+    }
+
+    html[data-theme="dark"]{
+      --paper:#0f1113;
+      --ink:#f2f1eb;
+      --soft:#a6aaa5;
+      --line:rgba(242,241,235,.16);
+      --panel:#171a1d;
+      --accent:#ff6b45;
+      --dark:#070809;
+      --light:#f7f5ef;
+    }
+
+    html[data-theme="dark"] body{
+      background:var(--paper);
+      color:var(--ink);
+    }
+    html[data-theme="dark"] .topbar{
+      background:rgba(15,17,19,.86);
+      border-bottom-color:var(--line);
+    }
+    html[data-theme="dark"] .statement{
+      background:#050607;
+    }
+    html[data-theme="dark"] .featured{
+      background:var(--panel);
+    }
+    html[data-theme="dark"] footer{
+      background:#050607;
+      color:#a6aaa5;
+    }
+    html[data-theme="dark"] .lang-btn,
+    html[data-theme="dark"] .theme-btn{
+      color:var(--ink);
+    }
+    html[data-theme="dark"] .lang-btn.active,
+    html[data-theme="dark"] .theme-btn.active{
+      background:var(--ink);
+      color:var(--paper);
+    }
+
+    @media(max-width:640px){
+      .theme-btn{padding:6px 7px;font-size:.72rem}
+    }
+
   </style>
 </head>
 <body>
@@ -343,6 +413,10 @@
         <div class="lang-switch" aria-label="Language selector">
           <button class="lang-btn active" type="button" data-lang-button="en">EN</button>
           <button class="lang-btn" type="button" data-lang-button="es">ES</button>
+        </div>
+        <div class="theme-toggle" aria-label="Theme selector">
+          <button class="theme-btn" type="button" data-theme-button="light" aria-label="Light mode" title="Light mode">☀</button>
+          <button class="theme-btn" type="button" data-theme-button="dark" aria-label="Dark mode" title="Dark mode">☾</button>
         </div>
         <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
       </div>
@@ -556,6 +630,10 @@
           <button class="lang-btn active" type="button" data-lang-button="en">EN</button>
           <button class="lang-btn" type="button" data-lang-button="es">ES</button>
         </div>
+        <div class="theme-toggle" aria-label="Theme selector">
+          <button class="theme-btn" type="button" data-theme-button="light" aria-label="Light mode" title="Light mode">☀</button>
+          <button class="theme-btn" type="button" data-theme-button="dark" aria-label="Dark mode" title="Dark mode">☾</button>
+        </div>
         <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
             <a class="pill" href="https://github.com/betolix" target="_blank">GitHub ↗</a>
           </div>
@@ -686,6 +764,28 @@
     try { saved = localStorage.getItem("alberto-site-language"); } catch(e) {}
     const initialLang = saved || ((navigator.language || "").toLowerCase().startsWith("es") ? "es" : "en");
     setLanguage(initialLang);
+  </script>
+
+
+  <script>
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      document.querySelectorAll("[data-theme-button]").forEach(btn => {
+        const active = btn.dataset.themeButton === theme;
+        btn.classList.toggle("active", active);
+        btn.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      try { localStorage.setItem("alberto-site-theme", theme); } catch(e) {}
+    }
+
+    document.querySelectorAll("[data-theme-button]").forEach(btn => {
+      btn.addEventListener("click", () => setTheme(btn.dataset.themeButton));
+    });
+
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem("alberto-site-theme"); } catch(e) {}
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setTheme(savedTheme || (prefersDark ? "dark" : "light"));
   </script>
 
 </body>
