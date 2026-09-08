@@ -399,6 +399,7 @@
       .theme-btn{padding:6px 7px;font-size:.72rem}
     }
 
+    .switch-group{display:flex;align-items:center;gap:7px}.switch-label{font-size:.68rem;font-weight:850;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap;color:var(--soft)}@media(max-width:760px){.switch-label{font-size:.62rem;letter-spacing:.08em}.switch-group{gap:5px}}@media(max-width:560px){.switch-label{display:none}}
   </style>
 </head>
 <body>
@@ -410,14 +411,10 @@
         <a href="#experience"><span data-i18n="navExperience">Experience</span></a>
         <a href="#work"><span data-i18n="navWork">Work</span></a>
         <a href="#skills"><span data-i18n="navSkills">Skills</span></a>
-        <div class="lang-switch" aria-label="Language selector">
-          <button class="lang-btn active" type="button" data-lang-button="en">EN</button>
-          <button class="lang-btn" type="button" data-lang-button="es">ES</button>
-        </div>
-        <div class="theme-toggle" aria-label="Theme selector">
-          <button class="theme-btn" type="button" data-theme-button="light" aria-label="Light mode" title="Light mode">☀</button>
-          <button class="theme-btn" type="button" data-theme-button="dark" aria-label="Dark mode" title="Dark mode">☾</button>
-        </div>
+        <div class="switch-group"><span class="switch-label" data-i18n="languageLabel">LANGUAGE</span>
+          <div class="lang-switch" aria-label="Language selector"><button class="lang-btn active" type="button" data-lang-button="en">EN</button><button class="lang-btn" type="button" data-lang-button="es">ES</button></div></div>
+        <div class="switch-group"><span class="switch-label" data-i18n="themeLabel">THEME</span>
+          <div class="theme-toggle" aria-label="Theme selector"><button class="theme-btn" type="button" data-theme-button="light" aria-label="Light mode" title="Light mode">☀</button><button class="theme-btn" type="button" data-theme-button="dark" aria-label="Dark mode" title="Dark mode">☾</button></div></div>
         <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
       </div>
     </div>
@@ -626,14 +623,10 @@
           </p>
           <div class="contact-links">
             <a class="pill" href="mailto:AlbertoLazoB@gmail.com">AlbertoLazoB@gmail.com</a>
-            <div class="lang-switch" aria-label="Language selector">
-          <button class="lang-btn active" type="button" data-lang-button="en">EN</button>
-          <button class="lang-btn" type="button" data-lang-button="es">ES</button>
-        </div>
-        <div class="theme-toggle" aria-label="Theme selector">
-          <button class="theme-btn" type="button" data-theme-button="light" aria-label="Light mode" title="Light mode">☀</button>
-          <button class="theme-btn" type="button" data-theme-button="dark" aria-label="Dark mode" title="Dark mode">☾</button>
-        </div>
+            <div class="switch-group"><span class="switch-label" data-i18n="languageLabel">LANGUAGE</span>
+          <div class="lang-switch" aria-label="Language selector"><button class="lang-btn active" type="button" data-lang-button="en">EN</button><button class="lang-btn" type="button" data-lang-button="es">ES</button></div></div>
+        <div class="switch-group"><span class="switch-label" data-i18n="themeLabel">THEME</span>
+          <div class="theme-toggle" aria-label="Theme selector"><button class="theme-btn" type="button" data-theme-button="light" aria-label="Light mode" title="Light mode">☀</button><button class="theme-btn" type="button" data-theme-button="dark" aria-label="Dark mode" title="Dark mode">☾</button></div></div>
         <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
             <a class="pill" href="https://github.com/betolix" target="_blank">GitHub ↗</a>
           </div>
@@ -662,6 +655,8 @@
     const translations = {
       en: {
         pageTitle: "Alberto Lazo — Tech Lead",
+        languageLabel: "LANGUAGE",
+        themeLabel: "THEME",
         navExperience: "Experience",
         navWork: "Work",
         navSkills: "Skills",
@@ -699,6 +694,8 @@
       },
       es: {
         pageTitle: "Alberto Lazo — Tech Lead",
+        languageLabel: "IDIOMA",
+        themeLabel: "TEMA",
         navExperience: "Experiencia",
         navWork: "Proyectos",
         navSkills: "Habilidades",
