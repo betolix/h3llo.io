@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-view="talk" lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -400,6 +400,216 @@
     }
 
     .switch-group{display:flex;align-items:center;gap:7px}.switch-label{font-size:.68rem;font-weight:850;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap;color:var(--soft)}@media(max-width:760px){.switch-label{font-size:.62rem;letter-spacing:.08em}.switch-group{gap:5px}}@media(max-width:560px){.switch-label{display:none}}
+
+    .view-switch{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      padding:3px;
+      border:1px solid var(--line);
+      border-radius:999px;
+    }
+    .view-btn{
+      appearance:none;
+      border:0;
+      background:transparent;
+      color:var(--ink);
+      border-radius:999px;
+      padding:7px 10px;
+      font:inherit;
+      font-size:.78rem;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .view-btn.active{
+      background:var(--ink);
+      color:var(--paper);
+    }
+
+    .table-view{
+      display:none;
+      padding:72px 0 90px;
+    }
+    html[data-view="table"] .talk-view{
+      display:none;
+    }
+    html[data-view="table"] .table-view{
+      display:block;
+    }
+
+    .table-hero{
+      display:flex;
+      justify-content:space-between;
+      gap:28px;
+      align-items:end;
+      padding-bottom:32px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:34px;
+    }
+    .table-hero h1{
+      font-size:clamp(2.6rem,6vw,5.6rem);
+      line-height:.92;
+      margin:0;
+      max-width:760px;
+    }
+    .table-hero p{
+      max-width:420px;
+      color:var(--soft);
+      margin:0;
+    }
+
+    .scan-section{
+      margin-top:46px;
+    }
+    .scan-head{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      align-items:end;
+      border-bottom:1px solid var(--line);
+      padding-bottom:12px;
+      margin-bottom:0;
+    }
+    .scan-head h2{
+      font-size:1.15rem;
+      letter-spacing:-.02em;
+      margin:0;
+    }
+    .scan-head span{
+      color:var(--soft);
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:800;
+    }
+
+    .scan-table{
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+    }
+    .scan-table th,
+    .scan-table td{
+      text-align:left;
+      vertical-align:top;
+      padding:16px 12px 16px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .scan-table th{
+      font-size:.72rem;
+      text-transform:uppercase;
+      letter-spacing:.11em;
+      color:var(--soft);
+      font-weight:800;
+    }
+    .scan-table td{
+      font-size:.94rem;
+    }
+    .scan-table .primary{
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .scan-table .muted{
+      color:var(--soft);
+    }
+
+    .scan-skills{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:0;
+      border-top:1px solid var(--line);
+      border-left:1px solid var(--line);
+    }
+    .scan-skill-group{
+      padding:18px;
+      border-right:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .scan-skill-group h3{
+      margin:0 0 8px;
+      font-size:.8rem;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+    }
+    .scan-skill-group p{
+      margin:0;
+      color:var(--soft);
+      font-size:.9rem;
+    }
+
+    .scan-contact{
+      display:flex;
+      justify-content:space-between;
+      gap:28px;
+      align-items:center;
+      padding:28px 0 0;
+    }
+    .scan-contact p{
+      margin:0;
+      color:var(--soft);
+      max-width:650px;
+    }
+    .scan-contact-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:flex-end;
+    }
+
+    @media(max-width:980px){
+      .scan-skills{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:760px){
+      .view-btn{padding:6px 8px;font-size:.72rem}
+      .table-hero,
+      .scan-contact{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .scan-contact-links{justify-content:flex-start}
+      .scan-table,
+      .scan-table thead,
+      .scan-table tbody,
+      .scan-table th,
+      .scan-table td,
+      .scan-table tr{
+        display:block;
+      }
+      .scan-table thead{display:none}
+      .scan-table tr{
+        padding:16px 0;
+        border-bottom:1px solid var(--line);
+      }
+      .scan-table td{
+        border:0;
+        padding:3px 0;
+      }
+      .scan-table td::before{
+        content:attr(data-label);
+        display:block;
+        font-size:.66rem;
+        text-transform:uppercase;
+        letter-spacing:.1em;
+        color:var(--soft);
+        font-weight:800;
+        margin-bottom:2px;
+      }
+    }
+    @media(max-width:560px){
+      .scan-skills{grid-template-columns:1fr}
+    }
+
+
+    @media(max-width:1020px){
+      .navlinks{gap:8px}
+      .switch-group{gap:4px}
+      .switch-label{font-size:.6rem}
+      .lang-btn,.theme-btn,.view-btn{padding:6px 7px;font-size:.7rem}
+    }
+    @media(max-width:820px){
+      .navlinks > a:not(.pill){display:none}
+    }
+
   </style>
 </head>
 <body>
@@ -415,12 +625,19 @@
           <div class="lang-switch" aria-label="Language selector"><button class="lang-btn active" type="button" data-lang-button="en">EN</button><button class="lang-btn" type="button" data-lang-button="es">ES</button></div></div>
         <div class="switch-group"><span class="switch-label" data-i18n="themeLabel">THEME</span>
           <div class="theme-toggle" aria-label="Theme selector"><button class="theme-btn" type="button" data-theme-button="light" aria-label="Light mode" title="Light mode">☀</button><button class="theme-btn" type="button" data-theme-button="dark" aria-label="Dark mode" title="Dark mode">☾</button></div></div>
+        <div class="switch-group">
+          <span class="switch-label" data-i18n="viewLabel">VIEW</span>
+          <div class="view-switch" aria-label="View selector">
+            <button class="view-btn active" type="button" data-view-button="talk" aria-pressed="true">TALK</button>
+            <button class="view-btn" type="button" data-view-button="table" aria-pressed="false">TABLE</button>
+          </div>
+        </div>
         <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
       </div>
     </div>
   </header>
 
-  <main id="top">
+  <main id="top" class="talk-view">
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
@@ -623,17 +840,147 @@
           </p>
           <div class="contact-links">
             <a class="pill" href="mailto:AlbertoLazoB@gmail.com">AlbertoLazoB@gmail.com</a>
-            <div class="switch-group"><span class="switch-label" data-i18n="languageLabel">LANGUAGE</span>
-          <div class="lang-switch" aria-label="Language selector"><button class="lang-btn active" type="button" data-lang-button="en">EN</button><button class="lang-btn" type="button" data-lang-button="es">ES</button></div></div>
-        <div class="switch-group"><span class="switch-label" data-i18n="themeLabel">THEME</span>
-          <div class="theme-toggle" aria-label="Theme selector"><button class="theme-btn" type="button" data-theme-button="light" aria-label="Light mode" title="Light mode">☀</button><button class="theme-btn" type="button" data-theme-button="dark" aria-label="Dark mode" title="Dark mode">☾</button></div></div>
-        <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
+            <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
             <a class="pill" href="https://github.com/betolix" target="_blank">GitHub ↗</a>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <main class="table-view" id="table-view">
+    <div class="wrap">
+      <section class="table-hero">
+        <div>
+          <div class="eyebrow" data-i18n="tableEyebrow">RECRUITER VIEW · MIAMI, FLORIDA</div>
+          <h1 data-i18n-html="tableHeroTitle">Alberto Lazo.<br><span class="hero-mark">Tech + business.</span></h1>
+        </div>
+        <p data-i18n="tableHeroBody">
+          A compact view of my background for recruiters and hiring managers who want the essentials quickly.
+        </p>
+      </section>
+
+      <section class="scan-section">
+        <div class="scan-head">
+          <h2 data-i18n="tableExperienceTitle">Experience</h2>
+          <span data-i18n="tableExperienceHint">Role · Company · Focus · Dates</span>
+        </div>
+        <table class="scan-table">
+          <thead>
+            <tr>
+              <th data-i18n="colRole">Role</th>
+              <th data-i18n="colCompany">Company</th>
+              <th data-i18n="colFocus">Focus</th>
+              <th data-i18n="colDates">Dates</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="primary" data-label="Role">Professional Services Intern</td>
+              <td data-label="Company">Datapro</td>
+              <td class="muted" data-label="Focus" data-i18n="tableDatapro">Jira Service Management, workflow diagnosis, Power BI reporting.</td>
+              <td data-label="Dates">Mar 2025 — Aug 2025</td>
+            </tr>
+            <tr>
+              <td class="primary" data-label="Role">Project Manager</td>
+              <td data-label="Company">Pacífico Seguros</td>
+              <td class="muted" data-label="Focus" data-i18n="tablePacificoPM">AI-assisted claims rules, image classification criteria, inference logic.</td>
+              <td data-label="Dates">2006 — Feb 2025</td>
+            </tr>
+            <tr>
+              <td class="primary" data-label="Role">Android Software Developer</td>
+              <td data-label="Company">Pacífico Seguros</td>
+              <td class="muted" data-label="Focus" data-i18n="tablePacificoAndroid">Mobile GIS, agricultural insurance, Java, GeoJSON and web services.</td>
+              <td data-label="Dates">Aug 2020 — Dec 2020</td>
+            </tr>
+            <tr>
+              <td class="primary" data-label="Role">Process Control Intern</td>
+              <td data-label="Company">Southern Peru Copper Corporation</td>
+              <td class="muted" data-label="Focus" data-i18n="tableSouthern">Industrial alarms, Modbus, Visual Basic and SMS escalation.</td>
+              <td data-label="Dates">Oct 2006 — Dec 2006</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="scan-section">
+        <div class="scan-head">
+          <h2 data-i18n="tableProjectsTitle">Selected projects</h2>
+          <span data-i18n="tableProjectsHint">Project · Domain · Stack · Contribution</span>
+        </div>
+        <table class="scan-table">
+          <thead>
+            <tr>
+              <th data-i18n="colProject">Project</th>
+              <th data-i18n="colDomain">Domain</th>
+              <th data-i18n="colStack">Stack</th>
+              <th data-i18n="colContribution">Contribution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="primary" data-label="Project">Land Survey Platform</td>
+              <td data-label="Domain" data-i18n="domainInsurance">Agricultural insurance / GIS</td>
+              <td data-label="Stack">Java · Google Maps · GeoJSON · Room · Retrofit</td>
+              <td class="muted" data-label="Contribution" data-i18n="contribLand">Design and implementation of field data collection.</td>
+            </tr>
+            <tr>
+              <td class="primary" data-label="Project">Jira Service Management</td>
+              <td data-label="Domain" data-i18n="domainOps">Maintenance operations</td>
+              <td data-label="Stack">Jira Service Management · Power BI</td>
+              <td class="muted" data-label="Contribution" data-i18n="contribJira">Implementation, workflow diagnosis and reporting integration.</td>
+            </tr>
+            <tr>
+              <td class="primary" data-label="Project">EcoEats</td>
+              <td data-label="Domain">Android</td>
+              <td data-label="Stack">Kotlin · Compose · Hilt · Room · Retrofit · Firebase</td>
+              <td class="muted" data-label="Contribution" data-i18n="contribEco">Modern Android portfolio project using Clean Architecture.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="scan-section">
+        <div class="scan-head">
+          <h2 data-i18n="tableSkillsTitle">Capabilities</h2>
+          <span data-i18n="tableSkillsHint">Grouped for fast scanning</span>
+        </div>
+        <div class="scan-skills">
+          <div class="scan-skill-group">
+            <h3 data-i18n="skillGroupSoftware">Software</h3>
+            <p>Kotlin · Java · C++ · Python · JavaScript · Node.js · REST APIs</p>
+          </div>
+          <div class="scan-skill-group">
+            <h3 data-i18n="skillGroupData">Data & Platforms</h3>
+            <p>SQL · PostgreSQL · Power BI · Jira · Git · Linux · Unix · FreeBSD</p>
+          </div>
+          <div class="scan-skill-group">
+            <h3 data-i18n="skillGroupGeo">Mobile & GIS</h3>
+            <p>Android · Google Maps · GeoJSON · QGIS · Room · Retrofit</p>
+          </div>
+          <div class="scan-skill-group">
+            <h3 data-i18n="skillGroupLeadership">Leadership</h3>
+            <p data-i18n="leadershipSkills">Requirements · Process Design · Architecture Decisions · Team Leadership</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="scan-section">
+        <div class="scan-contact">
+          <p data-i18n="tableContactBody">
+            Based in Miami. Authorized to work in the U.S. without employer sponsorship. Open to Tech Lead and technology leadership roles focused on business impact.
+          </p>
+          <div class="scan-contact-links">
+            <a class="pill" href="mailto:AlbertoLazoB@gmail.com">Email</a>
+            <a class="pill" href="https://www.linkedin.com/in/alberto-lazo/" target="_blank">LinkedIn ↗</a>
+            <a class="pill" href="https://github.com/betolix" target="_blank">GitHub ↗</a>
+            <a class="pill" href="Alberto_Lazo_Resume.pdf" target="_blank" data-i18n="resume">Résumé ↗</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
 
   <footer>
     <div class="wrap footer-inner">
@@ -657,6 +1004,39 @@
         pageTitle: "Alberto Lazo — Tech Lead",
         languageLabel: "LANGUAGE",
         themeLabel: "THEME",
+        viewLabel: "VIEW",
+        tableEyebrow: "RECRUITER VIEW · MIAMI, FLORIDA",
+        tableHeroTitle: 'Alberto Lazo.<br><span class="hero-mark">Tech + business.</span>',
+        tableHeroBody: "A compact view of my background for recruiters and hiring managers who want the essentials quickly.",
+        tableExperienceTitle: "Experience",
+        tableExperienceHint: "Role · Company · Focus · Dates",
+        colRole: "Role",
+        colCompany: "Company",
+        colFocus: "Focus",
+        colDates: "Dates",
+        tableDatapro: "Jira Service Management, workflow diagnosis, Power BI reporting.",
+        tablePacificoPM: "AI-assisted claims rules, image classification criteria, inference logic.",
+        tablePacificoAndroid: "Mobile GIS, agricultural insurance, Java, GeoJSON and web services.",
+        tableSouthern: "Industrial alarms, Modbus, Visual Basic and SMS escalation.",
+        tableProjectsTitle: "Selected projects",
+        tableProjectsHint: "Project · Domain · Stack · Contribution",
+        colProject: "Project",
+        colDomain: "Domain",
+        colStack: "Stack",
+        colContribution: "Contribution",
+        domainInsurance: "Agricultural insurance / GIS",
+        domainOps: "Maintenance operations",
+        contribLand: "Design and implementation of field data collection.",
+        contribJira: "Implementation, workflow diagnosis and reporting integration.",
+        contribEco: "Modern Android portfolio project using Clean Architecture.",
+        tableSkillsTitle: "Capabilities",
+        tableSkillsHint: "Grouped for fast scanning",
+        skillGroupSoftware: "Software",
+        skillGroupData: "Data & Platforms",
+        skillGroupGeo: "Mobile & GIS",
+        skillGroupLeadership: "Leadership",
+        leadershipSkills: "Requirements · Process Design · Architecture Decisions · Team Leadership",
+        tableContactBody: "Based in Miami. Authorized to work in the U.S. without employer sponsorship. Open to Tech Lead and technology leadership roles focused on business impact.",
         navExperience: "Experience",
         navWork: "Work",
         navSkills: "Skills",
@@ -696,6 +1076,39 @@
         pageTitle: "Alberto Lazo — Tech Lead",
         languageLabel: "IDIOMA",
         themeLabel: "TEMA",
+        viewLabel: "VISTA",
+        tableEyebrow: "VISTA PARA RECLUTADORES · MIAMI, FLORIDA",
+        tableHeroTitle: 'Alberto Lazo.<br><span class="hero-mark">Tecnología + negocio.</span>',
+        tableHeroBody: "Una vista compacta de mi trayectoria para reclutadores y hiring managers que quieren ver lo esencial rápidamente.",
+        tableExperienceTitle: "Experiencia",
+        tableExperienceHint: "Rol · Empresa · Enfoque · Fechas",
+        colRole: "Rol",
+        colCompany: "Empresa",
+        colFocus: "Enfoque",
+        colDates: "Fechas",
+        tableDatapro: "Jira Service Management, diagnóstico de flujos y reportes en Power BI.",
+        tablePacificoPM: "Reglas para reclamos asistidos por IA, criterios de clasificación de imágenes y lógica de inferencia.",
+        tablePacificoAndroid: "GIS móvil, seguros agrícolas, Java, GeoJSON y servicios web.",
+        tableSouthern: "Alarmas industriales, Modbus, Visual Basic y escalamiento mediante SMS.",
+        tableProjectsTitle: "Proyectos seleccionados",
+        tableProjectsHint: "Proyecto · Dominio · Stack · Contribución",
+        colProject: "Proyecto",
+        colDomain: "Dominio",
+        colStack: "Stack",
+        colContribution: "Contribución",
+        domainInsurance: "Seguros agrícolas / GIS",
+        domainOps: "Operaciones de mantenimiento",
+        contribLand: "Diseño e implementación de captura de datos en campo.",
+        contribJira: "Implementación, diagnóstico de flujos e integración de reportes.",
+        contribEco: "Proyecto de portafolio Android moderno usando Clean Architecture.",
+        tableSkillsTitle: "Capacidades",
+        tableSkillsHint: "Agrupadas para revisión rápida",
+        skillGroupSoftware: "Software",
+        skillGroupData: "Datos y plataformas",
+        skillGroupGeo: "Móvil y GIS",
+        skillGroupLeadership: "Liderazgo",
+        leadershipSkills: "Requerimientos · Diseño de procesos · Decisiones de arquitectura · Liderazgo de equipos",
+        tableContactBody: "Basado en Miami. Autorizado para trabajar en EE. UU. sin patrocinio del empleador. Abierto a roles de Tech Lead y liderazgo tecnológico enfocados en impacto de negocio.",
         navExperience: "Experiencia",
         navWork: "Proyectos",
         navSkills: "Habilidades",
@@ -783,6 +1196,46 @@
     try { savedTheme = localStorage.getItem("alberto-site-theme"); } catch(e) {}
     const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     setTheme(savedTheme || (prefersDark ? "dark" : "light"));
+  </script>
+
+
+  <script>
+    function setView(view) {
+      document.documentElement.setAttribute("data-view", view);
+      document.querySelectorAll("[data-view-button]").forEach(btn => {
+        const active = btn.dataset.viewButton === view;
+        btn.classList.toggle("active", active);
+        btn.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      try { localStorage.setItem("alberto-site-view", view); } catch(e) {}
+    }
+
+    document.querySelectorAll("[data-view-button]").forEach(btn => {
+      btn.addEventListener("click", () => setView(btn.dataset.viewButton));
+    });
+
+    let savedView = null;
+    try { savedView = localStorage.getItem("alberto-site-view"); } catch(e) {}
+    setView(savedView || "talk");
+
+    // Update mobile table labels whenever language changes.
+    const originalSetLanguage = window.setLanguage;
+    if (typeof originalSetLanguage === "function") {
+      window.setLanguage = function(lang) {
+        originalSetLanguage(lang);
+        const d = translations[lang] || translations.en;
+        const labelMap = {
+          "Role": d.colRole, "Company": d.colCompany, "Focus": d.colFocus, "Dates": d.colDates,
+          "Project": d.colProject, "Domain": d.colDomain, "Stack": d.colStack, "Contribution": d.colContribution
+        };
+        document.querySelectorAll(".scan-table td[data-label]").forEach(td => {
+          const base = td.getAttribute("data-label");
+          if (labelMap[base]) td.setAttribute("data-label", labelMap[base]);
+        });
+      };
+      let currentLang = document.documentElement.lang || "en";
+      window.setLanguage(currentLang);
+    }
   </script>
 
 </body>
