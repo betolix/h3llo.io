@@ -610,6 +610,29 @@
       .navlinks > a:not(.pill){display:none}
     }
 
+
+    .visit-counter{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      opacity:.52;
+      font-size:.7rem;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .visit-counter::before{
+      content:"";
+      width:4px;
+      height:4px;
+      border-radius:50%;
+      background:currentColor;
+      opacity:.55;
+    }
+    .visit-count{
+      font-variant-numeric:tabular-nums;
+    }
+
   </style>
 </head>
 <body>
@@ -987,7 +1010,13 @@
       <span>© 2026 Alberto Lazo</span>
       <span><span data-i18n="footerLocation">Miami, Florida · English / Spanish</span></span>
     </div>
-  </footer>
+  
+        <span class="visit-counter" aria-label="Local visit counter">
+          <span data-i18n="visitsLabel">Visits</span>
+          <span class="visit-count" id="visit-count">0</span>
+        </span>
+
+</footer>
 
   <script>
     const observer = new IntersectionObserver(entries => {
@@ -1005,6 +1034,7 @@
         languageLabel: "LANGUAGE",
         themeLabel: "THEME",
         viewLabel: "VIEW",
+        visitsLabel: "Visits",
         tableEyebrow: "RECRUITER VIEW · MIAMI, FLORIDA",
         tableHeroTitle: 'Alberto Lazo.<br><span class="hero-mark">Tech + business.</span>',
         tableHeroBody: "A compact view of my background for recruiters and hiring managers who want the essentials quickly.",
@@ -1077,6 +1107,7 @@
         languageLabel: "IDIOMA",
         themeLabel: "TEMA",
         viewLabel: "VISTA",
+        visitsLabel: "Visitas",
         tableEyebrow: "VISTA PARA RECLUTADORES · MIAMI, FLORIDA",
         tableHeroTitle: 'Alberto Lazo.<br><span class="hero-mark">Tecnología + negocio.</span>',
         tableHeroBody: "Una vista compacta de mi trayectoria para reclutadores y hiring managers que quieren ver lo esencial rápidamente.",
@@ -1236,6 +1267,27 @@
       let currentLang = document.documentElement.lang || "en";
       window.setLanguage(currentLang);
     }
+  </script>
+
+
+  <script>
+    (function () {
+      const el = document.getElementById("visit-count");
+      if (!el) return;
+
+      const totalKey = "alberto-local-visit-count";
+      const sessionKey = "alberto-local-visit-counted";
+
+      let total = Number(localStorage.getItem(totalKey) || 0);
+
+      if (sessionStorage.getItem(sessionKey) !== "1") {
+        total += 1;
+        localStorage.setItem(totalKey, String(total));
+        sessionStorage.setItem(sessionKey, "1");
+      }
+
+      el.textContent = total.toLocaleString();
+    })();
   </script>
 
 </body>
