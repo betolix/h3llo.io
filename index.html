@@ -1011,7 +1011,7 @@
       <span><span data-i18n="footerLocation">Miami, Florida · English / Spanish</span></span>
     </div>
   
-        <span class="visit-counter" aria-label="Local visit counter">
+        <span class="visit-counter" aria-label="Global visit counter">
           <span data-i18n="visitsLabel">Visits</span>
           <span class="visit-count" id="visit-count">0</span>
         </span>
@@ -1272,21 +1272,51 @@
 
   <script>
     (function () {
-      const el = document.getElementById("visit-count");
-      if (!el) return;
+      const endpoint = "https://4rqnv2a4lcabaobur3o6btm2ki0ixixy.lambda-url.us-east-1.on.aws/";
+      const counter = document.getElementById("visit-count");
+      if (!counter) return;
 
-      const totalKey = "alberto-local-visit-count";
-      const sessionKey = "alberto-local-visit-counted";
+      const countedKey = "h3llo-global-visit-counted";
+      const lastCountKey = "h3llo-global-last-count";
 
-      let total = Number(localStorage.getItem(totalKey) || 0);
+      // Show the last known global count immediately when available.
+      const cachedCount = sessionStorage.getItem(lastCountKey);
+      counter.textContent = cachedCount || "—";
 
-      if (sessionStorage.getItem(sessionKey) !== "1") {
-        total += 1;
-        localStorage.setItem(totalKey, String(total));
-        sessionStorage.setItem(sessionKey, "1");
-      }
+      // Count only once per browser-tab session. Reloading the page will not
+      // generate another visit or another email.
+      if (sessionStorage.getItem(countedKey) === "1") return;
 
-      el.textContent = total.toLocaleString();
+      const payload = {
+        page: window.location.href,
+        referrer: document.referrer || "Direct / Unknown",
+        language: navigator.language || "Unknown",
+        userAgent: navigator.userAgent || "Unknown"
+      };
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Visit endpoint returned " + res.status);
+        return res.json();
+      })
+      .then((data) => {
+        if (typeof data.visits === "number") {
+          counter.textContent = data.visits.toLocaleString();
+          sessionStorage.setItem(lastCountKey, String(data.visits));
+          sessionStorage.setItem(countedKey, "1");
+        }
+      })
+      .catch((err) => {
+        console.warn("Visit counter unavailable:", err);
+        // Keep the footer discreet if the backend is temporarily unavailable.
+        if (!cachedCount) counter.textContent = "—";
+      });
     })();
   </script>
 
