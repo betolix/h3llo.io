@@ -633,6 +633,201 @@
       font-variant-numeric:tabular-nums;
     }
 
+    /* Keep top navigation geometry identical in English and Spanish. */
+    @media (min-width:761px){
+      .topbar .navlinks > .switch-group:nth-of-type(1){width:136px;justify-content:flex-end}
+      .topbar .navlinks > .switch-group:nth-of-type(2){width:112px;justify-content:flex-end}
+      .topbar .navlinks > .switch-group:nth-of-type(3){width:174px;justify-content:flex-end}
+      .topbar .switch-label{display:inline-block;min-width:64px;text-align:right}
+    }
+
+  
+    /* Top-bar breathing room: stable in both EN and ES */
+    @media (min-width:761px){
+      .topbar .switch-group{
+        gap:10px;
+      }
+      .topbar .switch-label{
+        min-width:76px;
+        margin-right:2px;
+      }
+      .topbar .switch-group:has([data-lang]),
+      .topbar .switch-group:has(#lang-switch),
+      .topbar .switch-group:has(.lang-switch){
+        min-width:132px;
+      }
+      .topbar .switch-group:has([data-theme]),
+      .topbar .switch-group:has(#theme-switch),
+      .topbar .switch-group:has(.theme-switch){
+        min-width:118px;
+      }
+      .topbar .switch-group:has([data-view]),
+      .topbar .switch-group:has(#view-switch),
+      .topbar .switch-group:has(.view-switch){
+        min-width:170px;
+      }
+    }
+
+  
+    /* Keep Resume / CV button identical in EN and ES */
+    @media (min-width:761px){
+      .topbar a[href$=".pdf"],
+      .topbar a[download]{
+        width:92px;
+        min-width:92px;
+        box-sizing:border-box;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        white-space:nowrap;
+      }
+    }
+
+  
+    /* Prevent English nav labels such as SKILLS and LANGUAGE from colliding */
+    @media (min-width:901px){
+      .topbar,
+      .topbar-inner,
+      .nav,
+      .nav-links{
+        min-width:0;
+      }
+      .topbar-inner{
+        gap:24px;
+      }
+      .nav-links{
+        display:flex;
+        align-items:center;
+        gap:22px;
+        flex-wrap:nowrap;
+      }
+      .nav-links > a{
+        flex:0 0 auto;
+        white-space:nowrap;
+      }
+      .topbar .switch-group{
+        flex:0 0 auto;
+        margin-left:0;
+      }
+      .topbar .switch-label{
+        min-width:auto;
+        width:auto;
+        margin-right:2px;
+      }
+    }
+
+    /* Give the controls room before the mobile/tablet nav takes over */
+    @media (min-width:901px) and (max-width:1180px){
+      .topbar-inner{gap:16px}
+      .nav-links{gap:14px}
+      .topbar .switch-group{gap:7px}
+      .topbar .switch-label{
+        font-size:.62rem;
+        letter-spacing:.08em;
+      }
+    }
+
+  
+    /* Definitive topbar layout fix */
+    @media (min-width:901px){
+      .topbar .wrap,
+      .topbar-inner{
+        max-width:none;
+      }
+
+      .topbar-inner{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:28px;
+      }
+
+      .brand{
+        flex:0 0 auto;
+      }
+
+      .navlinks,
+      .nav-links{
+        display:flex;
+        align-items:center;
+        justify-content:flex-end;
+        flex:1 1 auto;
+        min-width:0;
+        gap:18px;
+        flex-wrap:nowrap;
+      }
+
+      .navlinks > a,
+      .nav-links > a,
+      .topbar .switch-group{
+        flex:0 0 auto;
+        white-space:nowrap;
+      }
+
+      /* Undo all previous artificial widths that caused SKILLS/LANGUAGE overlap */
+      .topbar .switch-group,
+      .topbar .switch-group:has([data-lang]),
+      .topbar .switch-group:has(#lang-switch),
+      .topbar .switch-group:has(.lang-switch),
+      .topbar .switch-group:has([data-theme]),
+      .topbar .switch-group:has(#theme-switch),
+      .topbar .switch-group:has(.theme-switch),
+      .topbar .switch-group:has([data-view]),
+      .topbar .switch-group:has(#view-switch),
+      .topbar .switch-group:has(.view-switch){
+        width:auto !important;
+        min-width:0 !important;
+        max-width:none !important;
+      }
+
+      .topbar .switch-label{
+        width:auto !important;
+        min-width:0 !important;
+        margin:0 !important;
+        text-align:left;
+      }
+
+      /* The actual switches/buttons retain their own intrinsic size */
+      .lang-switch,
+      .theme-switch,
+      .view-switch,
+      .lang-toggle,
+      .theme-toggle{
+        flex:0 0 auto;
+      }
+
+      /* Resume/CV remains stable in both languages */
+      .topbar a[href$=".pdf"],
+      .topbar a[download]{
+        width:92px !important;
+        min-width:92px !important;
+        max-width:92px !important;
+        justify-content:center;
+      }
+    }
+
+    /* Reduce spacing gracefully before anything can overlap */
+    @media (min-width:1101px) and (max-width:1280px){
+      .topbar-inner{gap:18px}
+      .navlinks,.nav-links{gap:12px}
+      .topbar .switch-group{gap:6px}
+      .topbar .switch-label{
+        font-size:.60rem;
+        letter-spacing:.07em;
+      }
+    }
+
+    /* At compact desktop widths, section links are less important than controls.
+       Hide them instead of allowing collisions. */
+    @media (min-width:901px) and (max-width:1100px){
+      .navlinks > a:not(.pill),
+      .nav-links > a:not(.pill){
+        display:none !important;
+      }
+      .navlinks,.nav-links{gap:12px}
+      .topbar .switch-group{gap:7px}
+    }
+
   </style>
 </head>
 <body>
