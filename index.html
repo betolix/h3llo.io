@@ -5,7 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Alberto Lazo — Tech Lead based in Miami. Technology, business systems, insurance, automation, mobile GIS and software." />
   <title>Alberto Lazo — Tech Lead</title>
+  <script>
+    // Apply the saved theme, view and language before first paint so the page
+    // doesn't flash the defaults. The scripts at the end wire up the switches.
+    (function () {
+      const root = document.documentElement;
+      const get = key => { try { return localStorage.getItem(key); } catch (e) { return null; } };
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      root.setAttribute("data-theme", get("alberto-site-theme") || (prefersDark ? "dark" : "light"));
+      root.setAttribute("data-view", get("alberto-site-view") || "talk");
+      const lang = get("alberto-site-language") || ((navigator.language || "").toLowerCase().startsWith("es") ? "es" : "en");
+      // The markup is in English; keep it hidden until setLanguage swaps the text.
+      if (lang !== "en") root.setAttribute("data-i18n-pending", "");
+    })();
+  </script>
   <style>
+    html[data-i18n-pending] body{visibility:hidden}
     :root {
       --paper:#f1efe8;
       --ink:#11110f;
@@ -633,213 +648,49 @@
       font-variant-numeric:tabular-nums;
     }
 
-    /* Keep top navigation geometry identical in English and Spanish. */
+    /* Topbar layout. Between 761px and 900px the switches get fixed widths so
+       the controls don't shift when the labels change between EN and ES. */
     @media (min-width:761px){
-      .topbar .navlinks > .switch-group:nth-of-type(1){width:136px;justify-content:flex-end}
-      .topbar .navlinks > .switch-group:nth-of-type(2){width:112px;justify-content:flex-end}
-      .topbar .navlinks > .switch-group:nth-of-type(3){width:174px;justify-content:flex-end}
-      .topbar .switch-label{display:inline-block;min-width:64px;text-align:right}
-    }
-
-  
-    /* Top-bar breathing room: stable in both EN and ES */
-    @media (min-width:761px){
-      .topbar .switch-group{
-        gap:10px;
-      }
-      .topbar .switch-label{
-        min-width:76px;
-        margin-right:2px;
-      }
-      .topbar .switch-group:has([data-lang]),
-      .topbar .switch-group:has(#lang-switch),
-      .topbar .switch-group:has(.lang-switch){
-        min-width:132px;
-      }
-      .topbar .switch-group:has([data-theme]),
-      .topbar .switch-group:has(#theme-switch),
-      .topbar .switch-group:has(.theme-switch){
-        min-width:118px;
-      }
-      .topbar .switch-group:has([data-view]),
-      .topbar .switch-group:has(#view-switch),
-      .topbar .switch-group:has(.view-switch){
-        min-width:170px;
-      }
-    }
-
-  
-    /* Keep Resume / CV button identical in EN and ES */
-    @media (min-width:761px){
-      .topbar a[href$=".pdf"],
-      .topbar a[download]{
+      .topbar .resume-link{
         width:92px;
         min-width:92px;
-        box-sizing:border-box;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
         white-space:nowrap;
       }
     }
-
-  
-    /* Prevent English nav labels such as SKILLS and LANGUAGE from colliding */
-    @media (min-width:901px){
-      .topbar,
-      .topbar-inner,
-      .nav,
-      .nav-links{
-        min-width:0;
-      }
-      .topbar-inner{
-        gap:24px;
-      }
-      .nav-links{
-        display:flex;
-        align-items:center;
-        gap:22px;
-        flex-wrap:nowrap;
-      }
-      .nav-links > a{
-        flex:0 0 auto;
-        white-space:nowrap;
-      }
-      .topbar .switch-group{
-        flex:0 0 auto;
-        margin-left:0;
-      }
-      .topbar .switch-label{
-        min-width:auto;
-        width:auto;
-        margin-right:2px;
-      }
+    @media (min-width:761px) and (max-width:900px){
+      .topbar .switch-group{gap:10px;justify-content:flex-end}
+      .topbar .navlinks > .switch-group:nth-of-type(1){width:136px;min-width:132px}
+      .topbar .navlinks > .switch-group:nth-of-type(2){width:112px}
+      .topbar .navlinks > .switch-group:nth-of-type(3){width:174px;min-width:170px}
+      .topbar .switch-label{min-width:76px;margin-right:2px;text-align:right}
     }
-
-    /* Give the controls room before the mobile/tablet nav takes over */
-    @media (min-width:901px) and (max-width:1180px){
-      .topbar-inner{gap:16px}
-      .nav-links{gap:14px}
-      .topbar .switch-group{gap:7px}
-      .topbar .switch-label{
-        font-size:.62rem;
-        letter-spacing:.08em;
-      }
-    }
-
-  
-    /* Definitive topbar layout fix */
     @media (min-width:901px){
-      .topbar .wrap,
-      .topbar-inner{
-        max-width:none;
-      }
-
-      .topbar-inner{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:28px;
-      }
-
-      .brand{
-        flex:0 0 auto;
-      }
-
-      .navlinks,
-      .nav-links{
-        display:flex;
-        align-items:center;
+      .brand{flex:0 0 auto}
+      .navlinks{
         justify-content:flex-end;
         flex:1 1 auto;
         min-width:0;
         gap:18px;
         flex-wrap:nowrap;
       }
-
       .navlinks > a,
-      .nav-links > a,
-      .topbar .switch-group{
-        flex:0 0 auto;
-        white-space:nowrap;
-      }
-
-      /* Undo all previous artificial widths that caused SKILLS/LANGUAGE overlap */
-      .topbar .switch-group,
-      .topbar .switch-group:has([data-lang]),
-      .topbar .switch-group:has(#lang-switch),
-      .topbar .switch-group:has(.lang-switch),
-      .topbar .switch-group:has([data-theme]),
-      .topbar .switch-group:has(#theme-switch),
-      .topbar .switch-group:has(.theme-switch),
-      .topbar .switch-group:has([data-view]),
-      .topbar .switch-group:has(#view-switch),
-      .topbar .switch-group:has(.view-switch){
-        width:auto !important;
-        min-width:0 !important;
-        max-width:none !important;
-      }
-
-      .topbar .switch-label{
-        width:auto !important;
-        min-width:0 !important;
-        margin:0 !important;
-        text-align:left;
-      }
-
-      /* The actual switches/buttons retain their own intrinsic size */
-      .lang-switch,
-      .theme-switch,
-      .view-switch,
-      .lang-toggle,
-      .theme-toggle{
-        flex:0 0 auto;
-      }
-
-      /* Resume/CV remains stable in both languages */
-      .topbar a[href$=".pdf"],
-      .topbar a[download]{
-        width:92px !important;
-        min-width:92px !important;
-        max-width:92px !important;
-        justify-content:center;
-      }
+      .topbar .switch-group{flex:0 0 auto;white-space:nowrap}
+      .topbar .switch-group{gap:10px}
+      .lang-switch,.theme-toggle,.view-switch{flex:0 0 auto}
     }
-
-    /* Reduce spacing gracefully before anything can overlap */
-    @media (min-width:1101px) and (max-width:1280px){
-      .topbar-inner{gap:18px}
-      .navlinks,.nav-links{gap:12px}
-      .topbar .switch-group{gap:6px}
-      .topbar .switch-label{
-        font-size:.60rem;
-        letter-spacing:.07em;
-      }
+    /* Tighten spacing before anything can collide. Below 1100px the section
+       links give way to the controls. */
+    @media (min-width:901px) and (max-width:1280px){
+      .navlinks{gap:12px}
     }
-
-    /* At compact desktop widths, section links are less important than controls.
-       Hide them instead of allowing collisions. */
     @media (min-width:901px) and (max-width:1100px){
-      .navlinks > a:not(.pill),
-      .nav-links > a:not(.pill){
-        display:none !important;
-      }
-      .navlinks,.nav-links{gap:12px}
+      .navlinks > a:not(.pill){display:none}
       .topbar .switch-group{gap:7px}
+      .topbar .switch-label{font-size:.62rem;letter-spacing:.08em}
     }
-
-  
-    @media (min-width:761px){
-      .topbar .resume-link{
-        width:92px !important;
-        min-width:92px !important;
-        max-width:92px !important;
-        box-sizing:border-box;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        white-space:nowrap;
-      }
+    @media (min-width:1101px) and (max-width:1280px){
+      .topbar .switch-group{gap:6px}
+      .topbar .switch-label{font-size:.60rem;letter-spacing:.07em}
     }
     </style>
 </head>
@@ -1387,6 +1238,7 @@
 
     function setLanguage(lang) {
       const dict = translations[lang] || translations.en;
+      document.documentElement.removeAttribute("data-i18n-pending");
       document.documentElement.lang = lang;
       document.title = dict.pageTitle;
 
@@ -1397,6 +1249,13 @@
       document.querySelectorAll("[data-i18n-html]").forEach(el => {
         const key = el.dataset.i18nHtml;
         if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+      // Mobile table labels: data-label-key keeps the English column name
+      // ("Role", "Dates", ...) so it can be relabeled in either direction.
+      document.querySelectorAll(".scan-table td[data-label]").forEach(td => {
+        if (!td.dataset.labelKey) td.dataset.labelKey = td.dataset.label;
+        const label = dict["col" + td.dataset.labelKey];
+        if (label !== undefined) td.dataset.label = label;
       });
       document.querySelectorAll("[data-lang-button]").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.langButton === lang);
@@ -1456,25 +1315,6 @@
     let savedView = null;
     try { savedView = localStorage.getItem("alberto-site-view"); } catch(e) {}
     setView(savedView || "talk");
-
-    // Update mobile table labels whenever language changes.
-    const originalSetLanguage = window.setLanguage;
-    if (typeof originalSetLanguage === "function") {
-      window.setLanguage = function(lang) {
-        originalSetLanguage(lang);
-        const d = translations[lang] || translations.en;
-        const labelMap = {
-          "Role": d.colRole, "Company": d.colCompany, "Focus": d.colFocus, "Dates": d.colDates,
-          "Project": d.colProject, "Domain": d.colDomain, "Stack": d.colStack, "Contribution": d.colContribution
-        };
-        document.querySelectorAll(".scan-table td[data-label]").forEach(td => {
-          const base = td.getAttribute("data-label");
-          if (labelMap[base]) td.setAttribute("data-label", labelMap[base]);
-        });
-      };
-      let currentLang = document.documentElement.lang || "en";
-      window.setLanguage(currentLang);
-    }
   </script>
 
 
