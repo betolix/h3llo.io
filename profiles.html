@@ -5,7 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="Professional profiles and tailored résumés for Alberto Lazo.">
   <title>Professional Profiles — Alberto Lazo</title>
+  <script>
+    // Apply the saved theme and language before first paint (see index.html).
+    (function () {
+      const root = document.documentElement;
+      const get = key => { try { return localStorage.getItem(key); } catch (e) { return null; } };
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      root.setAttribute("data-theme", get("alberto-site-theme") || (prefersDark ? "dark" : "light"));
+      const lang = get("alberto-site-language") || ((navigator.language || "en").toLowerCase().startsWith("es") ? "es" : "en");
+      if (lang !== "en") root.setAttribute("data-i18n-pending", "");
+    })();
+  </script>
   <style>
+    html[data-i18n-pending] body{visibility:hidden}
     :root{
       --paper:#f1efe8; --ink:#111; --soft:#696a66; --line:rgba(17,17,17,.16);
       --panel:#e8e5dc; --accent:#ff5c35; --top:rgba(241,239,232,.88);
@@ -181,6 +193,7 @@ const copy = {
 };
 
 function setLang(lang){
+  document.documentElement.removeAttribute("data-i18n-pending");
   document.documentElement.lang=lang;
   document.querySelectorAll("[data-i18n]").forEach(el=>{
     const key=el.dataset.i18n;
