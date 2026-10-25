@@ -89,8 +89,8 @@
       <div class="switch-group">
         <span class="switch-label" data-i18n="theme">THEME</span>
         <div class="toggle">
-          <button type="button" data-theme="light" aria-label="Light theme">☀</button>
-          <button type="button" data-theme="dark" aria-label="Dark theme">☾</button>
+          <button type="button" data-theme-button="light" aria-label="Light theme">☀</button>
+          <button type="button" data-theme-button="dark" aria-label="Dark theme">☾</button>
         </div>
       </div>
       <a class="back" href="index.html" data-i18n="back">← HOME</a>
@@ -200,19 +200,21 @@ function setLang(lang){
     if(copy[lang][key]) el.textContent=copy[lang][key];
   });
   document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
-  localStorage.setItem("alberto-site-language",lang);
+  try{localStorage.setItem("alberto-site-language",lang);}catch(e){}
 }
 function setTheme(theme){
   document.documentElement.dataset.theme=theme;
-  document.querySelectorAll("[data-theme]").forEach(b=>b.classList.toggle("active",b.dataset.theme===theme));
-  localStorage.setItem("alberto-site-theme",theme);
+  document.querySelectorAll("[data-theme-button]").forEach(b=>b.classList.toggle("active",b.dataset.themeButton===theme));
+  try{localStorage.setItem("alberto-site-theme",theme);}catch(e){}
 }
 document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
-document.querySelectorAll("[data-theme]").forEach(b=>b.addEventListener("click",()=>setTheme(b.dataset.theme)));
+document.querySelectorAll("[data-theme-button]").forEach(b=>b.addEventListener("click",()=>setTheme(b.dataset.themeButton)));
 
-const savedLang=localStorage.getItem("alberto-site-language");
+// Storage can throw (blocked site data, some private modes); fall back to defaults.
+const getSaved=key=>{try{return localStorage.getItem(key);}catch(e){return null;}};
+const savedLang=getSaved("alberto-site-language");
 setLang(savedLang || ((navigator.language||"en").toLowerCase().startsWith("es")?"es":"en"));
-const savedTheme=localStorage.getItem("alberto-site-theme");
+const savedTheme=getSaved("alberto-site-theme");
 setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));
 </script>
 </body>
