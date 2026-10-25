@@ -1366,5 +1366,153 @@
     })();
   </script>
 
+  <style>
+    /* Konami code easter egg (↑ ↑ ↓ ↓ ← → ← → B A). Fixed colors so it reads
+       the same in both themes; no flashing, just one wipe, a slam and a shake. */
+    .konami{
+      position:fixed;inset:0;z-index:9999;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+      padding:24px;box-sizing:border-box;
+      background:var(--accent,#ff5c35);color:#11110f;
+      font-family:inherit;text-align:center;cursor:pointer;
+      clip-path:circle(0% at 50% 50%);
+      animation:konami-wipe .55s cubic-bezier(.7,0,.3,1) forwards;
+    }
+    .konami.closing{animation:konami-out .35s ease forwards}
+    .konami-title{
+      margin:0;font-size:clamp(3rem,13vw,10rem);font-weight:900;line-height:.86;
+      letter-spacing:-.05em;text-transform:uppercase;
+      animation:konami-shake .5s ease-in-out 1.15s 2;
+    }
+    .konami-word{display:block;opacity:0;transform:scale(2.6);animation:konami-slam .32s cubic-bezier(.2,1.4,.4,1) forwards}
+    .konami-word:nth-child(1){animation-delay:.45s}
+    .konami-word:nth-child(2){animation-delay:.7s}
+    .konami-word:nth-child(3){animation-delay:.95s}
+    .konami-hint{
+      font-size:.72rem;font-weight:850;letter-spacing:.14em;text-transform:uppercase;
+      opacity:0;animation:konami-fade .4s ease 1.6s forwards;
+    }
+    @keyframes konami-wipe{to{clip-path:circle(75% at 50% 50%)}}
+    @keyframes konami-out{to{opacity:0}}
+    @keyframes konami-slam{to{opacity:1;transform:none}}
+    @keyframes konami-fade{to{opacity:.7}}
+    @keyframes konami-shake{
+      0%,100%{transform:none}
+      20%{transform:translate(-10px,3px) rotate(-1deg)}
+      40%{transform:translate(9px,-4px) rotate(1deg)}
+      60%{transform:translate(-6px,2px)}
+      80%{transform:translate(4px,-1px)}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .konami{clip-path:none;opacity:0;animation:konami-fade-in .4s ease forwards}
+      .konami-title{animation:none}
+      .konami-word{opacity:1;transform:none;animation:none}
+      .konami-hint{opacity:.7;animation:none}
+      @keyframes konami-fade-in{to{opacity:1}}
+    }
+  </style>
+
+  <script>
+    // Konami code easter egg. Reads and writes nothing in storage, so the
+    // saved theme, language and view are untouched.
+    (function () {
+      const sequence = ["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];
+      let recent = [];
+      let overlay = null;
+      let audio = null;
+      let master = null;
+
+      // Synthesized with Web Audio, so there are no sound files. Skipped for
+      // reduced motion, where the takeover is a quiet fade.
+      function playSound() {
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        try {
+          audio = audio || new AudioCtx();
+          if (audio.state === "suspended") audio.resume();
+          const now = audio.currentTime;
+          master = audio.createGain();
+          master.gain.value = 0.3;
+          master.connect(audio.destination);
+
+          // Whoosh: filtered noise sweeping up with the orange wipe.
+          const noise = audio.createBuffer(1, audio.sampleRate * 0.6, audio.sampleRate);
+          const data = noise.getChannelData(0);
+          for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+          const whoosh = audio.createBufferSource();
+          whoosh.buffer = noise;
+          const sweep = audio.createBiquadFilter();
+          sweep.type = "bandpass";
+          sweep.Q.value = 1.2;
+          sweep.frequency.setValueAtTime(300, now);
+          sweep.frequency.exponentialRampToValueAtTime(3000, now + 0.5);
+          const whooshGain = audio.createGain();
+          whooshGain.gain.setValueAtTime(0.0001, now);
+          whooshGain.gain.exponentialRampToValueAtTime(0.5, now + 0.3);
+          whooshGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.58);
+          whoosh.connect(sweep).connect(whooshGain).connect(master);
+          whoosh.start(now);
+
+          // Thuds: a falling sine as each word lands; the last one hits hardest.
+          [[0.62, 0.7], [0.87, 0.8], [1.12, 1]].forEach(([at, level]) => {
+            const t = now + at;
+            const osc = audio.createOscillator();
+            osc.frequency.setValueAtTime(150, t);
+            osc.frequency.exponentialRampToValueAtTime(40, t + 0.25);
+            const gain = audio.createGain();
+            gain.gain.setValueAtTime(level, t);
+            gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.3);
+            osc.connect(gain).connect(master);
+            osc.start(t);
+            osc.stop(t + 0.32);
+          });
+        } catch (e) {}
+      }
+
+      function stopSound() {
+        if (!master) return;
+        master.gain.setTargetAtTime(0, audio.currentTime, 0.03);
+        master = null;
+      }
+
+      function isTyping(target) {
+        return target && (target.isContentEditable || /^(input|textarea|select)$/i.test(target.tagName));
+      }
+
+      function close() {
+        if (!overlay) return;
+        const el = overlay;
+        overlay = null;
+        stopSound();
+        el.classList.add("closing");
+        setTimeout(() => el.remove(), 350);
+      }
+
+      function open() {
+        if (overlay) return;
+        overlay = document.createElement("div");
+        overlay.className = "konami";
+        overlay.setAttribute("role", "alert");
+        overlay.innerHTML =
+          '<p class="konami-title"><span class="konami-word">Be</span><span class="konami-word">un-</span><span class="konami-word">denyable</span></p>' +
+          '<span class="konami-hint">Press any key or click to continue</span>';
+        overlay.addEventListener("click", close);
+        document.body.appendChild(overlay);
+        playSound();
+        const shown = overlay;
+        setTimeout(() => { if (overlay === shown) close(); }, 6000);
+      }
+
+      document.addEventListener("keydown", e => {
+        if (overlay) { if (!e.repeat) close(); return; }
+        if (isTyping(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
+        const key = (e.key || "").toLowerCase();
+        // Compare the last ten keys, so extra presses like ↑ ↑ ↑ ↓ ↓ … still count.
+        recent = recent.concat(key).slice(-sequence.length);
+        if (recent.join() === sequence.join()) { recent = []; open(); }
+      });
+    })();
+  </script>
 </body>
 </html>
