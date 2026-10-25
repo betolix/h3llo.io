@@ -218,7 +218,8 @@ const savedTheme=getSaved("alberto-site-theme");
 setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));
 </script>
   <style>
-    /* Konami code easter egg (↑ ↑ ↓ ↓ ← → ← → B A). Fixed colors so it reads
+    /* Konami code easter egg (↑ ↑ ↓ ↓ ← → ← → B A, or 7 taps on the name on
+       touch screens). Fixed colors so it reads
        the same in both themes; no flashing, just one wipe, a slam and a shake. */
     .konami{
       position:fixed;inset:0;z-index:9999;
@@ -229,6 +230,7 @@ setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark
       clip-path:circle(0% at 50% 50%);
       animation:konami-wipe .55s cubic-bezier(.7,0,.3,1) forwards;
     }
+    .brand{touch-action:manipulation}
     .konami.closing{animation:konami-out .35s ease forwards}
     .konami-title{
       margin:0;font-size:clamp(3rem,13vw,10rem);font-weight:900;line-height:.86;
@@ -268,10 +270,7 @@ setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark
     // saved theme, language and view are untouched.
     (function () {
       const sequence = ["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];
-      // On touch screens: swipe ↑ ↑ ↓ ↓ ← → ← →, then tap twice for B A.
-      const touchSequence = sequence.slice(0, 8).concat("tap", "tap");
       let recent = [];
-      let recentTouch = [];
       let openedAt = 0;
       let overlay = null;
       let audio = null;
@@ -353,8 +352,8 @@ setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark
           '<p class="konami-title"><span class="konami-word">Be</span><span class="konami-word">un-</span><span class="konami-word">denyable</span></p>' +
           '<span class="konami-hint">' + (matchMedia("(hover: none)").matches ? "Tap" : "Press any key or click") + ' to continue</span>';
         openedAt = Date.now();
-        // The tap that finishes the code also fires a click on the new overlay;
-        // ignore clicks for a moment so it doesn't close straight away.
+        // Ignore clicks for a moment so a stray extra tap doesn't close it
+        // straight away.
         overlay.addEventListener("click", () => { if (Date.now() - openedAt > 500) close(); });
         document.body.appendChild(overlay);
         playSound();
@@ -371,30 +370,29 @@ setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark
         if (recent.join() === sequence.join()) { recent = []; open(); }
       });
 
-      let touchStart = null;
-      document.addEventListener("touchstart", e => {
-        touchStart = !overlay && e.touches.length === 1 && !isTyping(e.target)
-          ? { x: e.touches[0].clientX, y: e.touches[0].clientY, time: Date.now() }
-          : null;
-      }, { passive: true });
-
-      document.addEventListener("touchend", e => {
-        if (!touchStart || overlay) return;
-        const end = e.changedTouches[0];
-        const dx = end.clientX - touchStart.x;
-        const dy = end.clientY - touchStart.y;
-        const time = Date.now() - touchStart.time;
-        touchStart = null;
-        let step = null;
-        if (Math.max(Math.abs(dx), Math.abs(dy)) >= 40 && time < 800) {
-          step = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "arrowright" : "arrowleft") : (dy > 0 ? "arrowdown" : "arrowup");
-        } else if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && time < 300) {
-          step = "tap";
-        }
-        if (!step) return;
-        recentTouch = recentTouch.concat(step).slice(-touchSequence.length);
-        if (recentTouch.join() === touchSequence.join()) { recentTouch = []; open(); }
-      }, { passive: true });
+      // On touch screens, where there's no keyboard: tap the ALBERTO LAZO name
+      // seven times quickly (Android's "tap the build number" trick). Each tap
+      // waits briefly before following the link, so a single tap still works.
+      const brand = document.querySelector(".brand");
+      if (brand && matchMedia("(hover: none)").matches) {
+        let taps = 0;
+        let tapTimer = null;
+        brand.addEventListener("click", e => {
+          e.preventDefault();
+          clearTimeout(tapTimer);
+          taps++;
+          if (taps >= 7) { taps = 0; open(); return; }
+          tapTimer = setTimeout(() => {
+            const single = taps === 1;
+            taps = 0;
+            if (!single) return;
+            const sameDoc = brand.pathname === location.pathname && brand.hash;
+            const anchor = sameDoc && document.querySelector(brand.hash);
+            if (anchor) anchor.scrollIntoView({ behavior: "smooth" });
+            else location.href = brand.href;
+          }, 500);
+        });
+      }
     })();
   </script>
 </body>
