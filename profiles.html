@@ -162,7 +162,7 @@
   </section>
 </main>
 
-<footer><div class="wrap">© Alberto Lazo · Miami, Florida</div></footer>
+<footer><div class="wrap">© Alberto Lazo · Miami, Florida · <span data-i18n="privacy">This site counts visits anonymously.</span></div></footer>
 
 <script>
 const copy = {
@@ -176,7 +176,8 @@ const copy = {
     backendDesc:"Server-side development centered on REST APIs, business logic, data flows and PostgreSQL-backed applications.",
     architectDesc:"Business-to-technical translation, systems integration, mobile platforms, automation and solution design.",
     gisDesc:"Geospatial and agricultural technology combining mobile GIS, field surveying, satellite imagery and crop-focused workflows.",
-    viewCv:"View CV ↗"
+    viewCv:"View CV ↗",
+    privacy:"This site counts visits anonymously."
   },
   es:{
     language:"IDIOMA",theme:"TEMA",back:"← INICIO",kicker:"Perfiles profesionales",
@@ -188,7 +189,8 @@ const copy = {
     backendDesc:"Desarrollo del lado servidor enfocado en APIs REST, lógica de negocio, flujos de datos y aplicaciones con PostgreSQL.",
     architectDesc:"Traducción de necesidades de negocio a soluciones técnicas, integración de sistemas, plataformas móviles y automatización.",
     gisDesc:"Tecnología geoespacial y agrícola combinando GIS móvil, levantamiento de campo, imágenes satelitales y procesos agrícolas.",
-    viewCv:"Ver CV ↗"
+    viewCv:"Ver CV ↗",
+    privacy:"Este sitio cuenta las visitas de forma anónima."
   }
 };
 
@@ -357,6 +359,7 @@ setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark
         overlay.addEventListener("click", () => { if (Date.now() - openedAt > 500) close(); });
         document.body.appendChild(overlay);
         playSound();
+        document.dispatchEvent(new CustomEvent("h3llo:easter-egg"));
         const shown = overlay;
         setTimeout(() => { if (overlay === shown) close(); }, 6000);
       }
@@ -395,5 +398,6 @@ setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark
       }
     })();
   </script>
+<script src="track.js"></script>
 </body>
 </html>

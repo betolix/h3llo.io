@@ -1068,6 +1068,7 @@
     <div class="wrap footer-inner">
       <span>© 2026 Alberto Lazo</span>
       <span><span data-i18n="footerLocation">Miami, Florida · English / Spanish</span></span>
+      <span data-i18n="privacyNote">This site counts visits anonymously.</span>
       <span class="visit-counter" aria-label="Global visit counter">
         <span data-i18n="visitsLabel">Visits</span>
         <span class="visit-count" id="visit-count">0</span>
@@ -1157,7 +1158,8 @@
         letsTalk: "Let’s talk",
         contactTitle: "Looking for the next problem worth solving.",
         contactBody: "I’m based in Miami and authorized to work in the United States without employer sponsorship. I’m targeting Tech Lead and technology leadership roles where business impact matters.",
-        footerLocation: "Miami, Florida · English / Spanish"
+        footerLocation: "Miami, Florida · English / Spanish",
+        privacyNote: "This site counts visits anonymously."
       },
       es: {
         pageTitle: "Alberto Lazo — Tech Lead",
@@ -1230,7 +1232,8 @@
         letsTalk: "Hablemos",
         contactTitle: "Buscando el próximo problema que valga la pena resolver.",
         contactBody: "Estoy basado en Miami y autorizado para trabajar en Estados Unidos sin patrocinio del empleador. Busco roles de Tech Lead y liderazgo tecnológico donde el impacto en el negocio sea importante.",
-        footerLocation: "Miami, Florida · Inglés / Español"
+        footerLocation: "Miami, Florida · Inglés / Español",
+        privacyNote: "Este sitio cuenta las visitas de forma anónima."
       }
     };
 
@@ -1316,55 +1319,7 @@
   </script>
 
 
-  <script>
-    (function () {
-      const endpoint = "https://4rqnv2a4lcabaobur3o6btm2ki0ixixy.lambda-url.us-east-1.on.aws/";
-      const counter = document.getElementById("visit-count");
-      if (!counter) return;
-
-      const countedKey = "h3llo-global-visit-counted";
-      const lastCountKey = "h3llo-global-last-count";
-
-      // Show the last known global count immediately when available.
-      const cachedCount = sessionStorage.getItem(lastCountKey);
-      counter.textContent = cachedCount || "—";
-
-      // Count only once per browser-tab session. Reloading the page will not
-      // generate another visit or another email.
-      if (sessionStorage.getItem(countedKey) === "1") return;
-
-      const payload = {
-        page: window.location.href,
-        referrer: document.referrer || "Direct / Unknown",
-        language: navigator.language || "Unknown",
-        userAgent: navigator.userAgent || "Unknown"
-      };
-
-      fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      })
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Visit endpoint returned " + res.status);
-        return res.json();
-      })
-      .then((data) => {
-        if (typeof data.visits === "number") {
-          counter.textContent = data.visits.toLocaleString();
-          sessionStorage.setItem(lastCountKey, String(data.visits));
-          sessionStorage.setItem(countedKey, "1");
-        }
-      })
-      .catch((err) => {
-        console.warn("Visit counter unavailable:", err);
-        // Keep the footer discreet if the backend is temporarily unavailable.
-        if (!cachedCount) counter.textContent = "—";
-      });
-    })();
-  </script>
+  <script src="track.js"></script>
 
   <style>
     /* Konami code easter egg (↑ ↑ ↓ ↓ ← → ← → B A, or 7 taps on the name on
@@ -1506,6 +1461,7 @@
         overlay.addEventListener("click", () => { if (Date.now() - openedAt > 500) close(); });
         document.body.appendChild(overlay);
         playSound();
+        document.dispatchEvent(new CustomEvent("h3llo:easter-egg"));
         const shown = overlay;
         setTimeout(() => { if (overlay === shown) close(); }, 6000);
       }
