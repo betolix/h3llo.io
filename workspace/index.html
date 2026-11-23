@@ -7,7 +7,7 @@
 .note .note-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:10px;border-top:1px solid #ffffff24;min-height:34px}.note .note-footer .tag{margin:0;font-size:11px;padding:1px 7px}.note .color-dot{width:15px;height:15px;border-radius:50%;border:1px solid #ffffff80;flex-shrink:0}.note .actions{margin-top:7px}.note .body{margin-bottom:6px}
 #editor .editor-metadata{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}#editor .editor-metadata>label:first-child{margin-top:0}
 .rich.drag-over{outline:3px dashed var(--accent);background:#12243a}.rich img{cursor:pointer;border:2px solid transparent;border-radius:5px}.rich img.selected-image{border-color:var(--accent)}#imageResize{width:170px;accent-color:var(--accent)}#imageResize:disabled{opacity:.4}.rich img[data-width]{max-width:100%;height:auto}
-.rich{position:relative}.rich .drop-caret{position:absolute;width:3px;height:24px;background:var(--accent);border-radius:3px;box-shadow:0 0 0 1px #0b1120,0 0 8px var(--accent);pointer-events:none;z-index:5}
+.rich{position:relative}.drop-caret{position:fixed;width:3px;height:24px;background:#38bdf8;border-radius:3px;box-shadow:0 0 0 1px #0b1120,0 0 8px #38bdf8;pointer-events:none;z-index:2000}
 </style></head><body><main>
 <header><a href="/">← h3llo.io</a><span>Private workspace · Android Learning Hub</span><button id="logout" class="secondary hidden" type="button">Log out</button></header>
 <h1>Android Learning Hub</h1><p>Your private Kotlin and Android learning notes, synchronized through your AWS notes API.</p>
@@ -113,18 +113,20 @@ $('bodyRich').addEventListener('mouseup',saveCaret);
 $('imageBtn').addEventListener('pointerdown',saveCaret);
 $('imageBtn').onclick=()=>$('imageFile').click();
 function insertionRangeAt(x,y){if(document.caretRangeFromPoint)return document.caretRangeFromPoint(x,y);if(document.caretPositionFromPoint){const p=document.caretPositionFromPoint(x,y);if(p){const r=document.createRange();r.setStart(p.offsetNode,p.offset);r.collapse(true);return r}}return null}
-const dropCaret=document.createElement('span');dropCaret.className='drop-caret hidden';dropCaret.setAttribute('aria-hidden','true');$('bodyRich').append(dropCaret);
+const dropCaret=document.createElement('span');dropCaret.className='drop-caret hidden';dropCaret.setAttribute('aria-hidden','true');document.body.append(dropCaret);
 function clearDropCaret(){dropCaret.classList.add('hidden');dropRange=null;$('bodyRich').classList.remove('drag-over')}
 function showDropCaret(x,y){
  const root=$('bodyRich'),r=insertionRangeAt(x,y);
  if(!r||!root.contains(r.commonAncestorContainer)){clearDropCaret();return}
  dropRange=r.cloneRange();
- let rect=r.getClientRects()[0]||r.getBoundingClientRect();
- if(!rect||(!rect.width&&!rect.height)){const node=r.startContainer.nodeType===1?r.startContainer:r.startContainer.parentElement;rect=node.getBoundingClientRect()}
- const host=root.getBoundingClientRect();
- dropCaret.style.left=Math.max(0,Math.min(host.width-4,rect.left-host.left+root.scrollLeft))+'px';
- dropCaret.style.top=Math.max(0,rect.top-host.top+root.scrollTop)+'px';
- dropCaret.style.height=Math.max(18,Math.min(35,rect.height||24))+'px';
+ // Use the actual browser caret geometry, falling back to the pointer for empty lines.
+ const rect=r.getClientRects()[0]||r.getBoundingClientRect();
+ const rootRect=root.getBoundingClientRect();
+ const caretX=rect&&Number.isFinite(rect.left)&&rect.height>0?rect.left:x;
+ const caretY=rect&&Number.isFinite(rect.top)&&rect.height>0?rect.top:y-12;
+ dropCaret.style.left=Math.max(rootRect.left+3,Math.min(rootRect.right-5,caretX))+'px';
+ dropCaret.style.top=Math.max(rootRect.top+3,Math.min(rootRect.bottom-22,caretY))+'px';
+ dropCaret.style.height=Math.max(18,Math.min(30,rect?.height||24))+'px';
  dropCaret.classList.remove('hidden');
 }
 function insertAtRange(node,range){
