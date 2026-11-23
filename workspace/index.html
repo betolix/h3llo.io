@@ -6,6 +6,7 @@
 #editor{position:fixed;inset:0;z-index:1000;margin:0;border:0;border-radius:0;background:rgba(2,6,23,.78);padding:clamp(12px,3vw,30px);display:flex;align-items:center;justify-content:center;overflow:hidden}#editor .editor-dialog{background:var(--panel);border:1px solid var(--border);border-radius:16px;width:min(760px,100%);max-height:calc(100dvh - 32px);display:flex;flex-direction:column;box-shadow:0 24px 80px #0009;overflow:hidden}#editor .editor-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 22px;border-bottom:1px solid var(--border)}#editor .editor-header h2{margin:0}#editor #noteForm{overflow-y:auto;padding:4px 22px 22px;overscroll-behavior:contain}#editor .editor-close{padding:4px 12px;font-size:24px;line-height:1.2}body.editor-open{overflow:hidden}@media(max-width:600px){#editor{padding:8px}#editor .editor-dialog{max-height:calc(100dvh - 16px)}#editor #noteForm{padding:4px 14px 16px}}
 .note .note-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:10px;border-top:1px solid #ffffff24;min-height:34px}.note .note-footer .tag{margin:0;font-size:11px;padding:1px 7px}.note .color-dot{width:15px;height:15px;border-radius:50%;border:1px solid #ffffff80;flex-shrink:0}.note .actions{margin-top:7px}.note .body{margin-bottom:6px}
 #editor .editor-metadata{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}#editor .editor-metadata>label:first-child{margin-top:0}
+.rich.drag-over{outline:3px dashed var(--accent);background:#12243a}.rich img{cursor:pointer;border:2px solid transparent;border-radius:5px}.rich img.selected-image{border-color:var(--accent)}#imageResize{width:170px;accent-color:var(--accent)}#imageResize:disabled{opacity:.4}.rich img[data-width]{max-width:100%;height:auto}
 </style></head><body><main>
 <header><a href="/">← h3llo.io</a><span>Private workspace · Android Learning Hub</span><button id="logout" class="secondary hidden" type="button">Log out</button></header>
 <h1>Android Learning Hub</h1><p>Your private Kotlin and Android learning notes, synchronized through your AWS notes API.</p>
@@ -15,14 +16,14 @@
 <div class="toolbar"><h2>My notes</h2><button id="newNote" type="button">+ New note</button></div>
 <div class="toolbar"><input id="search" placeholder="Search notes" aria-label="Search notes" style="max-width:320px"><select id="categoryFilter" aria-label="Filter by category"><option value="">All categories</option></select><select id="tagFilter" aria-label="Filter by tag"><option value="">All tags</option></select><button id="refresh" class="secondary" type="button">Refresh</button><button id="importStarters" class="secondary" type="button">Import 13 starter notes</button></div>
 <div id="notes" class="grid"></div>
-<section id="editor" class="hidden" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><div class="editor-dialog"><div class="editor-header"><h2 id="editorTitle">New note</h2><button id="closeEditor" class="secondary editor-close" type="button" aria-label="Save and close">×</button></div><form id="noteForm"><input id="noteId" type="hidden"><label for="title">Title</label><input id="title" maxlength="200" required><label>Note content</label><div class="toolbar"><button type="button" class="secondary" id="boldBtn">Bold</button><button type="button" class="secondary" id="italicBtn">Italic</button><button type="button" class="secondary" id="imageBtn">Insert image</button><input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden"></div><div id="bodyRich" class="rich" contenteditable="true" role="textbox" aria-label="Note content" aria-multiline="true"></div><div class="editor-metadata"><label for="category">Category</label><select id="category"><option>Kotlin</option><option>Concurrency</option><option>Architecture</option><option>Jetpack Compose</option><option>Quality</option><option>Backend</option><option>Projects</option><option>Roadmap</option></select><label for="status">Progress</label><select id="status"><option>To Learn</option><option>Learning</option><option>Review</option><option>Confident</option></select><label for="tags">Tags (comma-separated)</label><input id="tags" placeholder="Kotlin, Important, Interview Prep"><label for="color">Card color</label><input id="color" type="color" value="#172033" style="width:80px;height:44px;padding:4px"><label><input id="pinned" type="checkbox" style="width:auto"> Pin this note</label></div><div class="actions"><button type="submit">Save note</button><button id="cancel" class="secondary" type="button">Discard changes</button></div></form></div></section>
+<section id="editor" class="hidden" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><div class="editor-dialog"><div class="editor-header"><h2 id="editorTitle">New note</h2><button id="closeEditor" class="secondary editor-close" type="button" aria-label="Save and close">×</button></div><form id="noteForm"><input id="noteId" type="hidden"><label for="title">Title</label><input id="title" maxlength="200" required><label>Note content</label><div class="toolbar"><button type="button" class="secondary" id="boldBtn">Bold</button><button type="button" class="secondary" id="italicBtn">Italic</button><button type="button" class="secondary" id="imageBtn">Insert image</button><label for="imageResize" style="margin:0">Image width</label><input id="imageResize" type="range" min="15" max="100" step="5" value="100" disabled aria-label="Selected image width percentage"><input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden"></div><div id="bodyRich" class="rich" contenteditable="true" role="textbox" aria-label="Note content" aria-multiline="true"></div><div class="editor-metadata"><label for="category">Category</label><select id="category"><option>Kotlin</option><option>Concurrency</option><option>Architecture</option><option>Jetpack Compose</option><option>Quality</option><option>Backend</option><option>Projects</option><option>Roadmap</option></select><label for="status">Progress</label><select id="status"><option>To Learn</option><option>Learning</option><option>Review</option><option>Confident</option></select><label for="tags">Tags (comma-separated)</label><input id="tags" placeholder="Kotlin, Important, Interview Prep"><label for="color">Card color</label><input id="color" type="color" value="#172033" style="width:80px;height:44px;padding:4px"><label><input id="pinned" type="checkbox" style="width:auto"> Pin this note</label></div><div class="actions"><button type="submit">Save note</button><button id="cancel" class="secondary" type="button">Discard changes</button></div></form></div></section>
 </section></main>
 <script>
 'use strict';
 const REGION='us-east-1',CLIENT='r0civi0co7ee2hs3154g1vsnf',API='https://v2o5gtwin6.execute-api.us-east-1.amazonaws.com/prod/notes';
 const AUTH='https://cognito-idp.'+REGION+'.amazonaws.com/';
 const $=id=>document.getElementById(id);
-let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false;
+let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false,selectedImage=null,savedImageRange=null,imageUploading=false;
 function message(text){$('message').textContent=text||''}
 function showSignedIn(yes){$('login').classList.toggle('hidden',yes);$('workspace').classList.toggle('hidden',!yes);$('logout').classList.toggle('hidden',!yes)}
 function signOut(){tokens=null;sessionStorage.removeItem('h3llo-workspace-session');$('password').value='';notes=[];showSignedIn(false);message('Signed out.')}
@@ -31,18 +32,43 @@ async function signIn(email,password){const data=await cognito('InitiateAuth',{A
 async function getIdToken(){if(!tokens)throw Error('Please sign in');if(Date.now()-tokens.obtainedAt<Math.max(60,(tokens.ExpiresIn||3600)-120)*1000)return tokens.IdToken;if(!tokens.RefreshToken){signOut();throw Error('Session expired. Sign in again.')}const refreshed=await cognito('InitiateAuth',{AuthFlow:'REFRESH_TOKEN_AUTH',ClientId:CLIENT,AuthParameters:{REFRESH_TOKEN:tokens.RefreshToken}});tokens={...tokens,...refreshed.AuthenticationResult,obtainedAt:Date.now()};sessionStorage.setItem('h3llo-workspace-session',JSON.stringify(tokens));return tokens.IdToken}
 async function api(method='GET',payload=null,id=null,endpoint=''){const token=await getIdToken();const url=(endpoint?API.replace(/\/notes$/,'')+endpoint:API)+(id?'?id='+encodeURIComponent(id):'');const response=await fetch(url,{method,headers:{Authorization:'Bearer '+token,...(payload?{'Content-Type':'application/json'}:{})},...(payload?{body:JSON.stringify(payload)}:{})});const data=await response.json().catch(()=>({}));if(response.status===401){signOut();throw Error('Session rejected. Please sign in again.')}if(!response.ok)throw Error(data.error||data.message||'API request failed: '+response.status);return data}
 async function loadNotes(){message('Loading notes…');const data=await api();notes=data.notes||[];render();message(data.truncated?'Showing first page of notes.':'')}
-function safeHtml(raw){const d=new DOMParser().parseFromString(raw,"text/html");for(const el of [...d.body.querySelectorAll("*")]){if(!["P","DIV","BR","B","STRONG","I","EM","U","H2","H3","UL","OL","LI","BLOCKQUOTE","PRE","CODE","IMG","A"].includes(el.tagName)){el.replaceWith(...el.childNodes);continue}for(const a of [...el.attributes]){if(el.tagName==="IMG"&&a.name==="data-key")continue;if(el.tagName==="A"&&a.name==="href"&&/^https?:\/\//i.test(a.value))continue;el.removeAttribute(a.name)}if(el.tagName==="IMG"&&!el.getAttribute("data-key"))el.remove();}return d.body.innerHTML}
+const IMAGE_KEY_RE=/^[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/;
+function safeHtml(raw){
+ const doc=new DOMParser().parseFromString(String(raw||''),'text/html');
+ const allowed=new Set(['P','DIV','BR','B','STRONG','I','EM','U','H2','H3','UL','OL','LI','BLOCKQUOTE','PRE','CODE','IMG','A','SPAN']);
+ function clean(parent){
+  for(const node of [...parent.childNodes]){
+   if(node.nodeType===8){node.remove();continue}
+   if(node.nodeType!==1){if(node.nodeType!==3)node.remove();continue}
+   const tag=node.tagName;
+   if(['SCRIPT','STYLE','SVG','MATH','IFRAME','OBJECT','EMBED','FORM','INPUT','BUTTON','VIDEO','AUDIO','TEMPLATE','NOSCRIPT'].includes(tag)){node.remove();continue}
+   if(!allowed.has(tag)){clean(node);node.replaceWith(...node.childNodes);continue}
+   const key=node.getAttribute('data-key');
+   const width=node.getAttribute('data-width');
+   const href=node.getAttribute('href');
+   for(const attr of [...node.attributes])node.removeAttribute(attr.name);
+   if(tag==='IMG'){
+    if(!key||!IMAGE_KEY_RE.test(key)){node.remove();continue}
+    node.setAttribute('data-key',key);
+    if(width&&/^\d{1,3}$/.test(width)){const w=Number(width);if(w>=15&&w<=100)node.setAttribute('data-width',String(w))}
+   }
+   if(tag==='A'&&href){try{const u=new URL(href);if(['https:','http:'].includes(u.protocol)){node.setAttribute('href',u.href);node.setAttribute('rel','noopener noreferrer');node.setAttribute('target','_blank')}}catch{}}
+   clean(node);
+  }
+ }
+ clean(doc.body);return doc.body.innerHTML;
+}
 function bodyIsHtml(n){return typeof n.body==="string"&&n.body.startsWith("<!--rich-->")}
-async function hydrateImages(root){for(const img of root.querySelectorAll("img[data-key]")){try{const result=await api("GET",null,null,"/images?key="+encodeURIComponent(img.dataset.key));img.src=result.url;img.alt="Note image"}catch{img.alt="Image unavailable"}}}
+async function hydrateImages(root){for(const img of root.querySelectorAll("img[data-key]")){try{const result=await api("GET",null,null,"/images?key="+encodeURIComponent(img.dataset.key));img.src=result.url;img.alt="Note image";if(img.dataset.width)img.style.width=img.dataset.width+"%"}catch{img.alt="Image unavailable"}}}
 function refreshFilters(){const categories=[...new Set(notes.map(n=>n.category).filter(Boolean))].sort(),tags=[...new Set(notes.flatMap(n=>Array.isArray(n.tags)?n.tags:[]))].sort();for(const [id,values,label] of [["categoryFilter",categories,"All categories"],["tagFilter",tags,"All tags"]]){const el=$(id),current=el.value;el.replaceChildren(new Option(label,""),...values.map(v=>new Option(v,v)));el.value=values.includes(current)?current:""}}
 function render(){refreshFilters();const root=$('notes');root.replaceChildren();const query=$('search').value.trim().toLowerCase();const filtered=notes.filter(n=>(!$("categoryFilter").value||n.category===$("categoryFilter").value)&&(!$("tagFilter").value||(n.tags||[]).includes($("tagFilter").value))&&[n.title,n.body,n.category,n.status,...(n.tags||[])].some(v=>String(v||"").toLowerCase().includes(query))).sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));if(!filtered.length){const p=document.createElement('p');p.textContent='No notes found. Create your first note.';root.append(p);return}for(const n of filtered){const card=document.createElement('article');card.className='note'+(n.pinned?' pinned':'');card.style.backgroundColor=/^#[0-9a-f]{6}$/i.test(n.color||'')?n.color:'#172033';const h=document.createElement('h3');h.textContent=n.title||'Untitled';const meta=document.createElement('div');meta.className='note-footer';for(const value of [n.category]){const tag=document.createElement('span');tag.className='tag';tag.textContent=value||'';meta.append(tag)}const body=document.createElement('p');body.className='body';if(bodyIsHtml(n)){body.innerHTML=safeHtml(n.body.slice(11));hydrateImages(body)}else body.textContent=n.body||'';const actions=document.createElement('div');actions.className='actions';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Edit '+(n.title||'Untitled'));card.addEventListener('click',e=>{if(!e.target.closest('button'))openEditor(n)});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target===card){e.preventDefault();openEditor(n)}});const del=document.createElement('button');del.className='danger';del.textContent='Delete';del.onclick=()=>deleteNote(n);const pin=document.createElement('button');pin.className='pin-icon';pin.type='button';pin.setAttribute('aria-label',n.pinned?'Unpin note':'Pin note');pin.setAttribute('aria-pressed',String(!!n.pinned));pin.title=n.pinned?'Unpin note':'Pin note';pin.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3l5 5-4 1-3 5-4 1-5 6 1-8 4-4 1-4z"/><path d="m2 22 6-6"/></svg>';pin.onclick=async()=>{try{await saveNote({...n,pinned:!n.pinned});await loadNotes()}catch(e){message(e.message)}};actions.append(del);for(const t of n.tags||[]){const tag=document.createElement('span');tag.className='tag';tag.textContent='#'+t;meta.append(tag)}const dot=document.createElement('span');dot.className='color-dot';dot.style.backgroundColor=/^#[0-9a-f]{6}$/i.test(n.color||'')?n.color:'#172033';dot.title='Card color';meta.append(dot);card.append(pin,h,body,meta,actions);root.append(card)}}
 async function saveNote(n){return api('POST',{id:n.noteId||n.id,title:n.title,body:n.body,category:n.category,status:n.status,color:n.color||'#172033',pinned:!!n.pinned,tags:n.tags||[]})}
-function openEditor(n){if(!$('editor').classList.contains('hidden')&&editorDirty){message('Save or cancel the current note before opening another.');return}editorOpening=true;editorDirty=false;$('editor').classList.remove('hidden');document.body.classList.add('editor-open');$('editorTitle').textContent=n?'Edit note':'New note';$('noteId').value=n?.noteId||'';$('title').value=n?.title||'';$('bodyRich').innerHTML=n?(bodyIsHtml(n)?safeHtml(n.body.slice(11)):safeHtml((n.body||'').split('\n').map(line=>'<p>'+line.replaceAll('&','&amp;').replaceAll('<','&lt;')+'</p>').join(''))):'';hydrateImages($('bodyRich'));$('tags').value=(n?.tags||[]).join(', ');$('color').value=/^#[0-9a-f]{6}$/i.test(n?.color||'')?n.color:'#172033';$('pinned').checked=!!n?.pinned;$('category').value=n?.category||'Kotlin';$('status').value=n?.status||'To Learn';$('title').focus();setTimeout(()=>{editorOpening=false},0)}
+function openEditor(n){selectedImage=null;$('imageResize').disabled=true;if(!$('editor').classList.contains('hidden')&&editorDirty){message('Save or cancel the current note before opening another.');return}editorOpening=true;editorDirty=false;$('editor').classList.remove('hidden');document.body.classList.add('editor-open');$('editorTitle').textContent=n?'Edit note':'New note';$('noteId').value=n?.noteId||'';$('title').value=n?.title||'';$('bodyRich').innerHTML=n?(bodyIsHtml(n)?safeHtml(n.body.slice(11)):safeHtml((n.body||'').split('\n').map(line=>'<p>'+line.replaceAll('&','&amp;').replaceAll('<','&lt;')+'</p>').join(''))):'';hydrateImages($('bodyRich'));$('tags').value=(n?.tags||[]).join(', ');$('color').value=/^#[0-9a-f]{6}$/i.test(n?.color||'')?n.color:'#172033';$('pinned').checked=!!n?.pinned;$('category').value=n?.category||'Kotlin';$('status').value=n?.status||'To Learn';$('title').focus();setTimeout(()=>{editorOpening=false},0)}
 async function deleteNote(n){if(!confirm('Delete "'+n.title+'"?'))return;try{await api('DELETE',null,n.noteId);await loadNotes()}catch(e){message(e.message)}}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;message('Signing in…');try{await signIn($('email').value.trim(),$('password').value)}catch(err){message(err.message)}finally{button.disabled=false}});
 function closeEditorView(){document.body.classList.remove('editor-open');$('editor').classList.add('hidden')}
 function editorPayload(){return {id:$('noteId').value||undefined,title:$('title').value,body:'<!--rich-->'+safeHtml($('bodyRich').innerHTML),category:$('category').value,status:$('status').value,color:$('color').value,pinned:$('pinned').checked,tags:[...new Set($('tags').value.split(',').map(x=>x.trim()).filter(Boolean))].slice(0,20)}}
-async function saveEditor(){if(editorSaving||$('editor').classList.contains('hidden'))return;const title=$('title').value.trim();if(!title){message('A title is required before saving.');$('title').focus();return}editorSaving=true;try{await saveNote(editorPayload());editorDirty=false;closeEditorView();await loadNotes()}catch(err){message('Save failed: '+err.message+'. Your editor remains open.')}finally{editorSaving=false}}
+async function saveEditor(){if(imageUploading){message('Wait for the image upload to finish before saving.');return}if(editorSaving||$('editor').classList.contains('hidden'))return;const title=$('title').value.trim();if(!title){message('A title is required before saving.');$('title').focus();return}editorSaving=true;try{await saveNote(editorPayload());editorDirty=false;closeEditorView();await loadNotes()}catch(err){message('Save failed: '+err.message+'. Your editor remains open.')}finally{editorSaving=false}}
 $('noteForm').addEventListener('submit',async e=>{e.preventDefault();await saveEditor()});
 $('noteForm').addEventListener('input',()=>{editorDirty=true});$('noteForm').addEventListener('change',()=>{editorDirty=true});
 document.addEventListener('pointerdown',e=>{if(editorOpening||editorSaving||$('editor').classList.contains('hidden'))return;if($('editor').contains(e.target))return;if(e.target.closest('#logout'))return;if(editorDirty)void saveEditor();else closeEditorView()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('editor').classList.contains('hidden')){e.preventDefault();if(editorDirty)void saveEditor();else closeEditorView()}});
@@ -71,9 +97,58 @@ async function importStarters(){
 $('importStarters').onclick=importStarters;
 $('categoryFilter').onchange=render;$('tagFilter').onchange=render;
 $('boldBtn').onclick=()=>document.execCommand('bold');$('italicBtn').onclick=()=>document.execCommand('italic');
+function markEditorDirty(){editorDirty=true}
+function selectImage(img){
+ if(selectedImage)selectedImage.classList.remove('selected-image');
+ selectedImage=img&&$('bodyRich').contains(img)?img:null;
+ $('imageResize').disabled=!selectedImage;
+ if(selectedImage){selectedImage.classList.add('selected-image');$('imageResize').value=selectedImage.dataset.width||'100'}
+}
+$('bodyRich').addEventListener('click',e=>selectImage(e.target.closest('img[data-key]')));
+$('imageResize').addEventListener('input',()=>{if(!selectedImage)return;selectedImage.dataset.width=$('imageResize').value;selectedImage.style.width=$('imageResize').value+'%';markEditorDirty()});
+function saveCaret(){const sel=window.getSelection();if(sel&&sel.rangeCount&&$('bodyRich').contains(sel.anchorNode))savedImageRange=sel.getRangeAt(0).cloneRange()}
+$('bodyRich').addEventListener('keyup',saveCaret);
+$('bodyRich').addEventListener('mouseup',saveCaret);
+$('imageBtn').addEventListener('pointerdown',saveCaret);
 $('imageBtn').onclick=()=>$('imageFile').click();
-$('imageFile').onchange=async()=>{const file=$('imageFile').files[0];if(!file)return;if(file.size>5*1024*1024){message('Maximum image size is 5 MB');return}try{message('Uploading image…');const upload=await api('POST',{contentType:file.type},null,'/images');const form=new FormData();for(const [k,v] of Object.entries(upload.upload.fields))form.append(k,v);form.append('file',file);const response=await fetch(upload.upload.url,{method:'POST',body:form});if(!response.ok)throw Error('S3 upload failed: '+response.status);const view=await api('GET',null,null,'/images?key='+encodeURIComponent(upload.key));const img=document.createElement('img');img.dataset.key=upload.key;img.src=view.url;img.alt=file.name;$('bodyRich').append(img);message('Image uploaded. Save note to keep it.')}catch(e){message(e.message)}finally{$('imageFile').value=''}};
-$('bodyRich').addEventListener('paste',async e=>{const file=[...(e.clipboardData?.files||[])].find(f=>f.type.startsWith('image/'));if(file){e.preventDefault();const dt=new DataTransfer();dt.items.add(file);$('imageFile').files=dt.files;$('imageFile').onchange()}});
+function insertAtRange(node,range){
+ const root=$('bodyRich');root.focus();
+ if(range&&root.contains(range.commonAncestorContainer)){range.deleteContents();range.insertNode(node)}
+ else root.append(node);
+ const after=document.createRange();after.setStartAfter(node);after.collapse(true);
+ const sel=window.getSelection();sel.removeAllRanges();sel.addRange(after);savedImageRange=after.cloneRange();
+ markEditorDirty();
+}
+async function uploadImage(file,range){
+ if(!file||!['image/png','image/jpeg','image/webp','image/gif'].includes(file.type)){message('Use PNG, JPEG, WebP or GIF images.');return}
+ if(file.size>5*1024*1024){message('Maximum image size is 5 MB');return}
+ if(imageUploading){message('Another image is uploading. Please wait.');return}
+ imageUploading=true;
+ try{
+  message('Uploading image…');
+  const upload=await api('POST',{contentType:file.type},null,'/images');
+  const form=new FormData();for(const [k,v] of Object.entries(upload.upload.fields))form.append(k,v);form.append('file',file);
+  const response=await fetch(upload.upload.url,{method:'POST',body:form});
+  if(!response.ok)throw Error('S3 upload failed: '+response.status);
+  const view=await api('GET',null,null,'/images?key='+encodeURIComponent(upload.key));
+  const img=document.createElement('img');img.dataset.key=upload.key;img.src=view.url;img.alt='Note image';
+  insertAtRange(img,range);selectImage(img);
+  message('Image uploaded. Click outside the editor to save.');
+ }catch(e){message(e.message)}finally{imageUploading=false}
+}
+$('imageFile').onchange=async()=>{const file=$('imageFile').files[0];await uploadImage(file,savedImageRange);$('imageFile').value=''};
+$('bodyRich').addEventListener('paste',e=>{const file=[...(e.clipboardData?.files||[])].find(f=>f.type.startsWith('image/'));if(file){e.preventDefault();saveCaret();void uploadImage(file,savedImageRange)}});
+$('bodyRich').addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('Files')){e.preventDefault();e.dataTransfer.dropEffect='copy';$('bodyRich').classList.add('drag-over')}});
+$('bodyRich').addEventListener('dragleave',e=>{if(!e.currentTarget.contains(e.relatedTarget))$('bodyRich').classList.remove('drag-over')});
+$('bodyRich').addEventListener('drop',e=>{
+ e.preventDefault();$('bodyRich').classList.remove('drag-over');
+ const file=[...e.dataTransfer.files].find(f=>f.type.startsWith('image/'));if(!file)return;
+ let range=null;
+ if(document.caretRangeFromPoint)range=document.caretRangeFromPoint(e.clientX,e.clientY);
+ else if(document.caretPositionFromPoint){const pos=document.caretPositionFromPoint(e.clientX,e.clientY);if(pos){range=document.createRange();range.setStart(pos.offsetNode,pos.offset);range.collapse(true)}}
+ void uploadImage(file,range);
+});
+
 $('newNote').onclick=()=>openEditor(null);$('cancel').onclick=()=>{editorDirty=false;closeEditorView()};$('closeEditor').onclick=()=>{if(editorDirty)void saveEditor();else closeEditorView()};$('refresh').onclick=()=>loadNotes().catch(e=>message(e.message));$('search').oninput=render;$('logout').onclick=signOut;
 try{tokens=JSON.parse(sessionStorage.getItem('h3llo-workspace-session')||'null')}catch{tokens=null}
 if(tokens?.IdToken){showSignedIn(true);loadNotes().catch(e=>message(e.message))}
