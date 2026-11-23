@@ -24,7 +24,7 @@
 const REGION='us-east-1',CLIENT='r0civi0co7ee2hs3154g1vsnf',API='https://v2o5gtwin6.execute-api.us-east-1.amazonaws.com/prod/notes';
 const AUTH='https://cognito-idp.'+REGION+'.amazonaws.com/';
 const $=id=>document.getElementById(id);
-let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false,selectedImage=null,savedImageRange=null,imageUploading=false,movingImage=null,dropRange=null,history=[],historyIndex=-1,restoringHistory=false;
+let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false,selectedImage=null,savedImageRange=null,imageUploading=false,movingImage=null,dropRange=null,history=[],historyIndex=-1,restoringHistory=false,typingTimer=null;
 function message(text){$('message').textContent=text||''}
 function showSignedIn(yes){$('login').classList.toggle('hidden',yes);$('workspace').classList.toggle('hidden',!yes);$('logout').classList.toggle('hidden',!yes)}
 function signOut(){tokens=null;sessionStorage.removeItem('h3llo-workspace-session');$('password').value='';notes=[];showSignedIn(false);message('Signed out.')}
@@ -87,6 +87,8 @@ function snapshotEditor(){
  return {html:safeHtml($('bodyRich').innerHTML),fields};
 }
 function updateHistoryButtons(){$('undoBtn').disabled=historyIndex<=0;$('redoBtn').disabled=historyIndex>=history.length-1}
+function flushTyping(){if(typingTimer!==null){clearTimeout(typingTimer);typingTimer=null;recordHistory()}}
+function scheduleTyping(){if(restoringHistory||editorOpening)return;editorDirty=true;if(typingTimer!==null)clearTimeout(typingTimer);typingTimer=setTimeout(()=>{typingTimer=null;recordHistory()},650)}
 function recordHistory(){
  if(restoringHistory||editorOpening||$('editor').classList.contains('hidden'))return;
  const snap=snapshotEditor(),prev=history[historyIndex];
@@ -96,6 +98,7 @@ function recordHistory(){
  historyIndex=history.length-1;editorDirty=true;updateHistoryButtons();
 }
 function restoreHistory(index){
+ if(typingTimer!==null){flushTyping();index=historyIndex+(index<historyIndex?-1:1)}
  if(imageUploading||editorSaving||index<0||index>=history.length)return;
  restoringHistory=true;historyIndex=index;
  const snap=history[index];selectImage(null);savedImageRange=null;clearDropCaret();
@@ -116,14 +119,14 @@ $('bodyRich').addEventListener('beforeinput',e=>{
   e.preventDefault();restoreHistory(historyIndex+(e.inputType==='historyUndo'?-1:1));
  }
 });
-function openEditor(n){selectedImage=null;$('imageResize').disabled=true;if(!$('editor').classList.contains('hidden')&&editorDirty){message('Save or cancel the current note before opening another.');return}editorOpening=true;editorDirty=false;$('editor').classList.remove('hidden');document.body.classList.add('editor-open');$('editorTitle').textContent=n?'Edit note':'New note';$('noteId').value=n?.noteId||'';$('title').value=n?.title||'';$('bodyRich').innerHTML=n?(bodyIsHtml(n)?safeHtml(n.body.slice(11)):safeHtml((n.body||'').split('\n').map(line=>'<p>'+line.replaceAll('&','&amp;').replaceAll('<','&lt;')+'</p>').join(''))):'';applyTextStyles($('bodyRich'));hydrateImages($('bodyRich'));$('tags').value=(n?.tags||[]).join(', ');$('color').value=/^#[0-9a-f]{6}$/i.test(n?.color||'')?n.color:'#172033';$('pinned').checked=!!n?.pinned;$('category').value=n?.category||'Kotlin';$('status').value=n?.status||'To Learn';$('title').focus();history=[snapshotEditor()];historyIndex=0;updateHistoryButtons();setTimeout(()=>{editorOpening=false},0)}
+function openEditor(n){if(typingTimer!==null){clearTimeout(typingTimer);typingTimer=null}selectedImage=null;$('imageResize').disabled=true;if(!$('editor').classList.contains('hidden')&&editorDirty){message('Save or cancel the current note before opening another.');return}editorOpening=true;editorDirty=false;$('editor').classList.remove('hidden');document.body.classList.add('editor-open');$('editorTitle').textContent=n?'Edit note':'New note';$('noteId').value=n?.noteId||'';$('title').value=n?.title||'';$('bodyRich').innerHTML=n?(bodyIsHtml(n)?safeHtml(n.body.slice(11)):safeHtml((n.body||'').split('\n').map(line=>'<p>'+line.replaceAll('&','&amp;').replaceAll('<','&lt;')+'</p>').join(''))):'';applyTextStyles($('bodyRich'));hydrateImages($('bodyRich'));$('tags').value=(n?.tags||[]).join(', ');$('color').value=/^#[0-9a-f]{6}$/i.test(n?.color||'')?n.color:'#172033';$('pinned').checked=!!n?.pinned;$('category').value=n?.category||'Kotlin';$('status').value=n?.status||'To Learn';$('title').focus();history=[snapshotEditor()];historyIndex=0;updateHistoryButtons();setTimeout(()=>{editorOpening=false},0)}
 async function deleteNote(n){if(!confirm('Delete "'+n.title+'"?'))return;try{await api('DELETE',null,n.noteId);await loadNotes()}catch(e){message(e.message)}}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;message('Signing in…');try{await signIn($('email').value.trim(),$('password').value)}catch(err){message(err.message)}finally{button.disabled=false}});
-function closeEditorView(){document.body.classList.remove('editor-open');$('editor').classList.add('hidden')}
+function closeEditorView(){if(typingTimer!==null){clearTimeout(typingTimer);typingTimer=null}document.body.classList.remove('editor-open');$('editor').classList.add('hidden')}
 function editorPayload(){return {id:$('noteId').value||undefined,title:$('title').value,body:'<!--rich-->'+safeHtml($('bodyRich').innerHTML),category:$('category').value,status:$('status').value,color:$('color').value,pinned:$('pinned').checked,tags:[...new Set($('tags').value.split(',').map(x=>x.trim()).filter(Boolean))].slice(0,20)}}
-async function saveEditor(){if(imageUploading){message('Wait for the image upload to finish before saving.');return}if(editorSaving||$('editor').classList.contains('hidden'))return;const title=$('title').value.trim();if(!title){message('A title is required before saving.');$('title').focus();return}editorSaving=true;try{await saveNote(editorPayload());editorDirty=false;closeEditorView();await loadNotes()}catch(err){message('Save failed: '+err.message+'. Your editor remains open.')}finally{editorSaving=false}}
+async function saveEditor(){flushTyping();if(imageUploading){message('Wait for the image upload to finish before saving.');return}if(editorSaving||$('editor').classList.contains('hidden'))return;const title=$('title').value.trim();if(!title){message('A title is required before saving.');$('title').focus();return}editorSaving=true;try{await saveNote(editorPayload());editorDirty=false;closeEditorView();await loadNotes()}catch(err){message('Save failed: '+err.message+'. Your editor remains open.')}finally{editorSaving=false}}
 $('noteForm').addEventListener('submit',async e=>{e.preventDefault();await saveEditor()});
-$('noteForm').addEventListener('input',()=>{if(!restoringHistory)recordHistory()});$('noteForm').addEventListener('change',()=>{if(!restoringHistory)recordHistory()});
+$('noteForm').addEventListener('input',e=>{if(restoringHistory)return;if(e.target===$('bodyRich')||$('bodyRich').contains(e.target)||e.target===$('title')||e.target===$('tags'))scheduleTyping();else{flushTyping();recordHistory()}});$('noteForm').addEventListener('change',()=>{if(!restoringHistory){flushTyping();recordHistory()}});
 document.addEventListener('pointerdown',e=>{if(editorOpening||editorSaving||$('editor').classList.contains('hidden'))return;if($('editor').querySelector('.editor-dialog').contains(e.target))return;if(e.target.closest('#logout'))return;if(editorDirty)void saveEditor();else closeEditorView()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('editor').classList.contains('hidden')){e.preventDefault();if(editorDirty)void saveEditor();else closeEditorView()}});
 
 async function importStarters(){
@@ -150,7 +153,7 @@ async function importStarters(){
 $('importStarters').onclick=importStarters;
 $('categoryFilter').onchange=render;$('tagFilter').onchange=render;
 $('boldBtn').onclick=()=>{document.execCommand('bold');markEditorDirty()};$('italicBtn').onclick=()=>{document.execCommand('italic');markEditorDirty()};
-function markEditorDirty(){editorDirty=true;recordHistory()}
+function markEditorDirty(){flushTyping();editorDirty=true;recordHistory()}
 function selectImage(img){
  if(selectedImage)selectedImage.classList.remove('selected-image');
  selectedImage=img&&$('bodyRich').contains(img)?img:null;
@@ -168,7 +171,7 @@ function formatSelection(kind,value){
  const root=$('bodyRich'),sel=window.getSelection();
  let range=sel&&sel.rangeCount?sel.getRangeAt(0):null;
  if(!range||range.collapsed||!root.contains(range.commonAncestorContainer)){message('Select some text first to apply formatting.');return}
- const span=document.createElement('span');
+ flushTyping();const span=document.createElement('span');
  span.dataset[kind]=value;
  const fragment=range.extractContents();span.append(fragment);range.insertNode(span);
  applyTextStyles(span.parentElement||root);
@@ -228,7 +231,7 @@ $('bodyRich').addEventListener('paste',e=>{const file=[...(e.clipboardData?.file
 $('bodyRich').addEventListener('dragstart',e=>{
  const img=e.target.closest('img[data-key]');
  if(!img)return;
- movingImage=img;
+ flushTyping();movingImage=img;
  e.dataTransfer.effectAllowed='move';
  e.dataTransfer.setData('text/plain','h3llo-internal-image');
  selectImage(img);
