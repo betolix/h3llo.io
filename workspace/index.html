@@ -9,7 +9,7 @@
 <section id="login" class="panel"><h2>Sign in</h2><form id="loginForm"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required value="betolix@gmail.com"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required><p class="small">Use your Cognito password. Credentials are sent directly to Amazon Cognito, not to this website's server.</p><button type="submit">Sign in</button></form></section>
 <section id="workspace" class="hidden">
 <div class="toolbar"><h2>My notes</h2><button id="newNote" type="button">+ New note</button></div>
-<div class="toolbar"><input id="search" placeholder="Search notes" aria-label="Search notes" style="max-width:420px"><button id="refresh" class="secondary" type="button">Refresh</button></div>
+<div class="toolbar"><input id="search" placeholder="Search notes" aria-label="Search notes" style="max-width:420px"><button id="refresh" class="secondary" type="button">Refresh</button><button id="importStarters" class="secondary" type="button">Import 13 starter notes</button></div>
 <div id="notes" class="grid"></div>
 <section id="editor" class="panel hidden"><h2 id="editorTitle">New note</h2><form id="noteForm"><input id="noteId" type="hidden"><label for="title">Title</label><input id="title" maxlength="200" required><label for="category">Category</label><select id="category"><option>Kotlin</option><option>Concurrency</option><option>Architecture</option><option>Jetpack Compose</option><option>Quality</option><option>Backend</option><option>Projects</option><option>Roadmap</option></select><label for="status">Progress</label><select id="status"><option>To Learn</option><option>Learning</option><option>Review</option><option>Confident</option></select><label for="body">Notes</label><textarea id="body" maxlength="30000"></textarea><div class="actions"><button type="submit">Save note</button><button id="cancel" class="secondary" type="button">Cancel</button></div></form></section>
 </section></main>
@@ -32,6 +32,29 @@ function openEditor(n){$('editor').classList.remove('hidden');$('editorTitle').t
 async function deleteNote(n){if(!confirm('Delete "'+n.title+'"?'))return;try{await api('DELETE',null,n.noteId);await loadNotes()}catch(e){message(e.message)}}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;message('Signing in…');try{await signIn($('email').value.trim(),$('password').value)}catch(err){message(err.message)}finally{button.disabled=false}});
 $('noteForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;try{await api('POST',{id:$('noteId').value||undefined,title:$('title').value,body:$('body').value,category:$('category').value,status:$('status').value});$('editor').classList.add('hidden');await loadNotes()}catch(err){message(err.message)}finally{button.disabled=false}});
+
+async function importStarters(){
+ const button=$('importStarters');button.disabled=true;
+ let imported=0,skipped=0;
+ try{
+  const response=await fetch('./starter-notes.json',{cache:'no-store'});
+  if(!response.ok)throw Error('Could not load starter notes ('+response.status+')');
+  const data=await response.json();
+  if(!Array.isArray(data.notes)||data.notes.length!==13)throw Error('Unexpected starter note format');
+  await loadNotes();
+  if(!confirm('Import the 13 original Android starter notes into your cloud workspace? Existing notes will be preserved.'))return;
+  const existing=new Set(notes.map(n=>n.noteId));
+  for(const n of data.notes){
+   if(existing.has(n.id)){skipped++;continue}
+   await api('POST',{id:n.id,title:n.title,body:n.body,category:n.category,status:n.status});
+   existing.add(n.id);imported++;
+  }
+  await loadNotes();
+  message('Imported '+imported+' starter notes; skipped '+skipped+' already present.');
+ }catch(e){message('Imported '+imported+' notes before error: '+e.message+'. Retry to finish safely.')}
+ finally{button.disabled=false}
+}
+$('importStarters').onclick=importStarters;
 $('newNote').onclick=()=>openEditor(null);$('cancel').onclick=()=>$('editor').classList.add('hidden');$('refresh').onclick=()=>loadNotes().catch(e=>message(e.message));$('search').oninput=render;$('logout').onclick=signOut;
 try{tokens=JSON.parse(sessionStorage.getItem('h3llo-workspace-session')||'null')}catch{tokens=null}
 if(tokens?.IdToken){showSignedIn(true);loadNotes().catch(e=>message(e.message))}
