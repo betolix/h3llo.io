@@ -7,6 +7,7 @@
 .note .note-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:10px;border-top:1px solid #ffffff24;min-height:34px}.note .note-footer .tag{margin:0;font-size:11px;padding:1px 7px}.note .color-dot{width:15px;height:15px;border-radius:50%;border:1px solid #ffffff80;flex-shrink:0}.note .actions{margin-top:7px}.note .body{margin-bottom:6px}
 #editor .editor-metadata{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}#editor .editor-metadata>label:first-child{margin-top:0}
 .rich.drag-over{outline:3px dashed var(--accent);background:#12243a}.rich img{cursor:pointer;border:2px solid transparent;border-radius:5px}.rich img.selected-image{border-color:var(--accent)}#imageResize{width:170px;accent-color:var(--accent)}#imageResize:disabled{opacity:.4}.rich img[data-width]{max-width:100%;height:auto}
+.rich{position:relative}.rich .drop-caret{position:absolute;width:3px;height:24px;background:var(--accent);border-radius:3px;box-shadow:0 0 0 1px #0b1120,0 0 8px var(--accent);pointer-events:none;z-index:5}
 </style></head><body><main>
 <header><a href="/">← h3llo.io</a><span>Private workspace · Android Learning Hub</span><button id="logout" class="secondary hidden" type="button">Log out</button></header>
 <h1>Android Learning Hub</h1><p>Your private Kotlin and Android learning notes, synchronized through your AWS notes API.</p>
@@ -23,7 +24,7 @@
 const REGION='us-east-1',CLIENT='r0civi0co7ee2hs3154g1vsnf',API='https://v2o5gtwin6.execute-api.us-east-1.amazonaws.com/prod/notes';
 const AUTH='https://cognito-idp.'+REGION+'.amazonaws.com/';
 const $=id=>document.getElementById(id);
-let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false,selectedImage=null,savedImageRange=null,imageUploading=false,movingImage=null;
+let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false,selectedImage=null,savedImageRange=null,imageUploading=false,movingImage=null,dropRange=null;
 function message(text){$('message').textContent=text||''}
 function showSignedIn(yes){$('login').classList.toggle('hidden',yes);$('workspace').classList.toggle('hidden',!yes);$('logout').classList.toggle('hidden',!yes)}
 function signOut(){tokens=null;sessionStorage.removeItem('h3llo-workspace-session');$('password').value='';notes=[];showSignedIn(false);message('Signed out.')}
@@ -112,6 +113,20 @@ $('bodyRich').addEventListener('mouseup',saveCaret);
 $('imageBtn').addEventListener('pointerdown',saveCaret);
 $('imageBtn').onclick=()=>$('imageFile').click();
 function insertionRangeAt(x,y){if(document.caretRangeFromPoint)return document.caretRangeFromPoint(x,y);if(document.caretPositionFromPoint){const p=document.caretPositionFromPoint(x,y);if(p){const r=document.createRange();r.setStart(p.offsetNode,p.offset);r.collapse(true);return r}}return null}
+const dropCaret=document.createElement('span');dropCaret.className='drop-caret hidden';dropCaret.setAttribute('aria-hidden','true');$('bodyRich').append(dropCaret);
+function clearDropCaret(){dropCaret.classList.add('hidden');dropRange=null;$('bodyRich').classList.remove('drag-over')}
+function showDropCaret(x,y){
+ const root=$('bodyRich'),r=insertionRangeAt(x,y);
+ if(!r||!root.contains(r.commonAncestorContainer)){clearDropCaret();return}
+ dropRange=r.cloneRange();
+ let rect=r.getClientRects()[0]||r.getBoundingClientRect();
+ if(!rect||(!rect.width&&!rect.height)){const node=r.startContainer.nodeType===1?r.startContainer:r.startContainer.parentElement;rect=node.getBoundingClientRect()}
+ const host=root.getBoundingClientRect();
+ dropCaret.style.left=Math.max(0,Math.min(host.width-4,rect.left-host.left+root.scrollLeft))+'px';
+ dropCaret.style.top=Math.max(0,rect.top-host.top+root.scrollTop)+'px';
+ dropCaret.style.height=Math.max(18,Math.min(35,rect.height||24))+'px';
+ dropCaret.classList.remove('hidden');
+}
 function insertAtRange(node,range){
  const root=$('bodyRich');root.focus();
  if(range&&root.contains(range.commonAncestorContainer)){range.deleteContents();range.insertNode(node)}
@@ -147,17 +162,17 @@ $('bodyRich').addEventListener('dragstart',e=>{
  e.dataTransfer.setData('text/plain','h3llo-internal-image');
  selectImage(img);
 });
-$('bodyRich').addEventListener('dragend',()=>{movingImage=null;$('bodyRich').classList.remove('drag-over')});
+$('bodyRich').addEventListener('dragend',()=>{movingImage=null;clearDropCaret()});
 $('bodyRich').addEventListener('dragover',e=>{
  if(movingImage||[...e.dataTransfer.types].includes('Files')){
   e.preventDefault();e.dataTransfer.dropEffect=movingImage?'move':'copy';
-  $('bodyRich').classList.add('drag-over');
+  $('bodyRich').classList.add('drag-over');showDropCaret(e.clientX,e.clientY);
  }
 });
-$('bodyRich').addEventListener('dragleave',e=>{if(!e.currentTarget.contains(e.relatedTarget))$('bodyRich').classList.remove('drag-over')});
+$('bodyRich').addEventListener('dragleave',e=>{if(!e.currentTarget.contains(e.relatedTarget))clearDropCaret()});
 $('bodyRich').addEventListener('drop',e=>{
- e.preventDefault();$('bodyRich').classList.remove('drag-over');
- const range=insertionRangeAt(e.clientX,e.clientY);
+ e.preventDefault();
+ const range=dropRange||insertionRangeAt(e.clientX,e.clientY);clearDropCaret();
  if(movingImage){
   const img=movingImage;movingImage=null;
   if(!range||!$('bodyRich').contains(range.commonAncestorContainer))return;
