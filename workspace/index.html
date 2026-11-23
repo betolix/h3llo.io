@@ -23,7 +23,7 @@
 const REGION='us-east-1',CLIENT='r0civi0co7ee2hs3154g1vsnf',API='https://v2o5gtwin6.execute-api.us-east-1.amazonaws.com/prod/notes';
 const AUTH='https://cognito-idp.'+REGION+'.amazonaws.com/';
 const $=id=>document.getElementById(id);
-let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false,selectedImage=null,savedImageRange=null,imageUploading=false;
+let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false,selectedImage=null,savedImageRange=null,imageUploading=false,movingImage=null;
 function message(text){$('message').textContent=text||''}
 function showSignedIn(yes){$('login').classList.toggle('hidden',yes);$('workspace').classList.toggle('hidden',!yes);$('logout').classList.toggle('hidden',!yes)}
 function signOut(){tokens=null;sessionStorage.removeItem('h3llo-workspace-session');$('password').value='';notes=[];showSignedIn(false);message('Signed out.')}
@@ -111,6 +111,7 @@ $('bodyRich').addEventListener('keyup',saveCaret);
 $('bodyRich').addEventListener('mouseup',saveCaret);
 $('imageBtn').addEventListener('pointerdown',saveCaret);
 $('imageBtn').onclick=()=>$('imageFile').click();
+function insertionRangeAt(x,y){if(document.caretRangeFromPoint)return document.caretRangeFromPoint(x,y);if(document.caretPositionFromPoint){const p=document.caretPositionFromPoint(x,y);if(p){const r=document.createRange();r.setStart(p.offsetNode,p.offset);r.collapse(true);return r}}return null}
 function insertAtRange(node,range){
  const root=$('bodyRich');root.focus();
  if(range&&root.contains(range.commonAncestorContainer)){range.deleteContents();range.insertNode(node)}
@@ -138,15 +139,38 @@ async function uploadImage(file,range){
 }
 $('imageFile').onchange=async()=>{const file=$('imageFile').files[0];await uploadImage(file,savedImageRange);$('imageFile').value=''};
 $('bodyRich').addEventListener('paste',e=>{const file=[...(e.clipboardData?.files||[])].find(f=>f.type.startsWith('image/'));if(file){e.preventDefault();saveCaret();void uploadImage(file,savedImageRange)}});
-$('bodyRich').addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('Files')){e.preventDefault();e.dataTransfer.dropEffect='copy';$('bodyRich').classList.add('drag-over')}});
+$('bodyRich').addEventListener('dragstart',e=>{
+ const img=e.target.closest('img[data-key]');
+ if(!img)return;
+ movingImage=img;
+ e.dataTransfer.effectAllowed='move';
+ e.dataTransfer.setData('text/plain','h3llo-internal-image');
+ selectImage(img);
+});
+$('bodyRich').addEventListener('dragend',()=>{movingImage=null;$('bodyRich').classList.remove('drag-over')});
+$('bodyRich').addEventListener('dragover',e=>{
+ if(movingImage||[...e.dataTransfer.types].includes('Files')){
+  e.preventDefault();e.dataTransfer.dropEffect=movingImage?'move':'copy';
+  $('bodyRich').classList.add('drag-over');
+ }
+});
 $('bodyRich').addEventListener('dragleave',e=>{if(!e.currentTarget.contains(e.relatedTarget))$('bodyRich').classList.remove('drag-over')});
 $('bodyRich').addEventListener('drop',e=>{
  e.preventDefault();$('bodyRich').classList.remove('drag-over');
- const file=[...e.dataTransfer.files].find(f=>f.type.startsWith('image/'));if(!file)return;
- let range=null;
- if(document.caretRangeFromPoint)range=document.caretRangeFromPoint(e.clientX,e.clientY);
- else if(document.caretPositionFromPoint){const pos=document.caretPositionFromPoint(e.clientX,e.clientY);if(pos){range=document.createRange();range.setStart(pos.offsetNode,pos.offset);range.collapse(true)}}
- void uploadImage(file,range);
+ const range=insertionRangeAt(e.clientX,e.clientY);
+ if(movingImage){
+  const img=movingImage;movingImage=null;
+  if(!range||!$('bodyRich').contains(range.commonAncestorContainer))return;
+  if(img.contains(range.commonAncestorContainer))return;
+  // Preserve the same image node and its persisted S3 key and width.
+  const target=range.cloneRange();target.collapse(true);
+  img.remove();target.insertNode(img);
+  selectImage(img);markEditorDirty();
+  message('Image moved. Click outside to save.');
+  return;
+ }
+ const file=[...e.dataTransfer.files].find(f=>f.type.startsWith('image/'));
+ if(file)void uploadImage(file,range);
 });
 
 $('newNote').onclick=()=>openEditor(null);$('cancel').onclick=()=>{editorDirty=false;closeEditorView()};$('closeEditor').onclick=()=>{if(editorDirty)void saveEditor();else closeEditorView()};$('refresh').onclick=()=>loadNotes().catch(e=>message(e.message));$('search').oninput=render;$('logout').onclick=signOut;
