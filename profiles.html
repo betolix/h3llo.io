@@ -72,7 +72,8 @@
       .toggle button{padding:6px 7px}
       .card{padding:26px 22px}
     }
-  </style>
+  .order-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px}.order-tools button{background:transparent;color:var(--ink);cursor:pointer}.order-tools #order-note{font-size:.76rem;color:var(--soft)}.move-controls{display:none;gap:8px;margin:0 0 14px}.arranging .move-controls{display:flex}.move-controls button{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px;cursor:pointer}
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -109,53 +110,53 @@
 
   <section class="profiles">
     <div class="wrap">
-      <div class="grid">
-        <article class="card">
+      <div class="order-tools"><button type="button" id="arrange-toggle" class="button" data-i18n="arrange">Arrange cards</button><button type="button" id="save-order" class="button" hidden data-i18n="saveOrder">Copy site order</button><span id="order-note" aria-live="polite"></span></div><div class="grid" id="profile-grid">
+        <article class="card" data-profile="android-developer">
           <div class="number">01 / 06</div>
           <h2>Senior Android Developer</h2>
           <p data-i18n="androidDesc">Mobile engineering focused on Kotlin, Java, modern Android architecture, offline workflows and location-aware applications.</p>
           <div class="tags"><span class="tag">Kotlin</span><span class="tag">Java</span><span class="tag">Jetpack Compose</span><span class="tag">Room</span><span class="tag">Retrofit</span></div>
-          <div class="actions"><a class="button primary" href="cv-senior-android-developer.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
+          <div class="actions"><a class="button" href="android-developer.html" data-i18n="viewProfile">View profile →</a><a class="button primary" href="cv-senior-android-developer.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
         </article>
 
-        <article class="card">
+        <article class="card" data-profile="tech-lead">
           <div class="number">02 / 06</div>
           <h2>Tech Lead / Engineering Manager</h2>
           <p data-i18n="leadDesc">Technical leadership connecting architecture, cross-functional teams, automation and business transformation.</p>
           <div class="tags"><span class="tag">Leadership</span><span class="tag">Architecture</span><span class="tag">AI Workflows</span><span class="tag">Process Automation</span></div>
-          <div class="actions"><a class="button primary" href="cv-tech-lead-engineering-manager.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
+          <div class="actions"><a class="button" href="tech-lead.html" data-i18n="viewProfile">View profile →</a><a class="button primary" href="cv-tech-lead-engineering-manager.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
         </article>
 
-        <article class="card">
+        <article class="card" data-profile="full-stack-engineer">
           <div class="number">03 / 06</div>
           <h2>Full Stack Engineer</h2>
           <p data-i18n="fullDesc">End-to-end development across mobile and web interfaces, REST services, backend logic and relational data.</p>
           <div class="tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Spring Boot</span><span class="tag">PostgreSQL</span><span class="tag">Android</span></div>
-          <div class="actions"><a class="button primary" href="cv-full-stack-engineer.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
+          <div class="actions"><a class="button" href="full-stack-engineer.html" data-i18n="viewProfile">View profile →</a><a class="button primary" href="cv-full-stack-engineer.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
         </article>
 
-        <article class="card">
+        <article class="card" data-profile="backend-developer">
           <div class="number">04 / 06</div>
           <h2>Backend Developer</h2>
           <p data-i18n="backendDesc">Server-side development centered on REST APIs, business logic, data flows and PostgreSQL-backed applications.</p>
           <div class="tags"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Node.js</span><span class="tag">PostgreSQL</span><span class="tag">REST</span></div>
-          <div class="actions"><a class="button primary" href="cv-backend-developer.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
+          <div class="actions"><a class="button" href="backend-developer.html" data-i18n="viewProfile">View profile →</a><a class="button primary" href="cv-backend-developer.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
         </article>
 
-        <article class="card">
+        <article class="card" data-profile="solutions-architect">
           <div class="number">05 / 06</div>
           <h2>Solutions Architect</h2>
           <p data-i18n="architectDesc">Business-to-technical translation, systems integration, mobile platforms, automation and solution design.</p>
           <div class="tags"><span class="tag">Systems Design</span><span class="tag">Integration</span><span class="tag">REST APIs</span><span class="tag">Automation</span><span class="tag">GIS</span></div>
-          <div class="actions"><a class="button primary" href="cv-solutions-architect.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
+          <div class="actions"><a class="button" href="solutions-architect.html" data-i18n="viewProfile">View profile →</a><a class="button primary" href="cv-solutions-architect.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
         </article>
 
-        <article class="card">
+        <article class="card" data-profile="gis-agritech">
           <div class="number">06 / 06</div>
           <h2>GIS / AgriTech Specialist</h2>
           <p data-i18n="gisDesc">Geospatial and agricultural technology combining mobile GIS, field surveying, satellite imagery and crop-focused workflows.</p>
           <div class="tags"><span class="tag">QGIS</span><span class="tag">GeoJSON</span><span class="tag">Google Maps</span><span class="tag">Satellite Imagery</span><span class="tag">AgriTech</span></div>
-          <div class="actions"><a class="button primary" href="cv-gis-agritech-specialist.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
+          <div class="actions"><a class="button" href="gis-agritech.html" data-i18n="viewProfile">View profile →</a><a class="button primary" href="cv-gis-agritech-specialist.pdf" target="_blank" data-i18n="viewCv">View CV ↗</a></div>
         </article>
       </div>
     </div>
@@ -176,7 +177,7 @@ const copy = {
     backendDesc:"Server-side development centered on REST APIs, business logic, data flows and PostgreSQL-backed applications.",
     architectDesc:"Business-to-technical translation, systems integration, mobile platforms, automation and solution design.",
     gisDesc:"Geospatial and agricultural technology combining mobile GIS, field surveying, satellite imagery and crop-focused workflows.",
-    viewCv:"View CV ↗",
+    viewCv:"View CV ↗",viewProfile:"View profile →",arrange:"Arrange cards",doneArrange:"Done arranging",saveOrder:"Copy site order",moveUp:"Move up",moveDown:"Move down",
     privacy:"This site counts visits anonymously."
   },
   es:{
@@ -189,7 +190,7 @@ const copy = {
     backendDesc:"Desarrollo del lado servidor enfocado en APIs REST, lógica de negocio, flujos de datos y aplicaciones con PostgreSQL.",
     architectDesc:"Traducción de necesidades de negocio a soluciones técnicas, integración de sistemas, plataformas móviles y automatización.",
     gisDesc:"Tecnología geoespacial y agrícola combinando GIS móvil, levantamiento de campo, imágenes satelitales y procesos agrícolas.",
-    viewCv:"Ver CV ↗",
+    viewCv:"Ver CV ↗",viewProfile:"Ver perfil →",arrange:"Ordenar tarjetas",doneArrange:"Terminar",saveOrder:"Copiar orden del sitio",moveUp:"Subir",moveDown:"Bajar",
     privacy:"Este sitio cuenta las visitas de forma anónima."
   }
 };
@@ -398,6 +399,24 @@ setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches?"dark
       }
     })();
   </script>
+<script src="profile-data.js"></script>
+<script>
+(function(){
+const grid=document.getElementById('profile-grid'),toggle=document.getElementById('arrange-toggle'),save=document.getElementById('save-order'),note=document.getElementById('order-note');
+const key='h3llo-profile-order';
+const cards=Array.from(grid.querySelectorAll('[data-profile]'));
+const ids=cards.map(c=>c.dataset.profile);
+const valid=(a)=>Array.isArray(a)&&a.length===ids.length&&new Set(a).size===ids.length&&a.every(id=>ids.includes(id));
+let order=window.H3LLO_PROFILE_ORDER||ids;
+try{const saved=JSON.parse(localStorage.getItem(key));if(valid(saved))order=saved;}catch(e){}
+function draw(){order.forEach((id,i)=>{const card=cards.find(c=>c.dataset.profile===id);if(!card)return;grid.appendChild(card);card.querySelector('.number').textContent=String(i+1).padStart(2,'0')+' / '+String(cards.length).padStart(2,'0');});}
+function store(){try{localStorage.setItem(key,JSON.stringify(order));}catch(e){}draw();}
+cards.forEach(card=>{const controls=document.createElement('div');controls.className='move-controls';for(const [delta,icon] of [[-1,'↑'],[1,'↓']]){const btn=document.createElement('button');btn.type='button';btn.textContent=icon;btn.setAttribute('aria-label',delta<0?'Move card up':'Move card down');btn.addEventListener('click',()=>{const i=order.indexOf(card.dataset.profile),j=i+delta;if(j<0||j>=order.length)return;[order[i],order[j]]=[order[j],order[i]];store();});controls.appendChild(btn);}card.insertBefore(controls,card.querySelector('.actions'));});
+let arranging=false;toggle.addEventListener('click',()=>{arranging=!arranging;grid.classList.toggle('arranging',arranging);save.hidden=!arranging;toggle.textContent=copy[document.documentElement.lang][arranging?'doneArrange':'arrange'];note.textContent='';});
+save.addEventListener('click',async()=>{const code='window.H3LLO_PROFILE_ORDER = '+JSON.stringify(order)+';';try{await navigator.clipboard.writeText(code);note.textContent='Copied. Replace the H3LLO_PROFILE_ORDER line in profile-data.js and deploy to make this order public.';}catch(e){note.textContent=code;}});
+draw();
+})();
+</script>
 <script src="track.js"></script>
 </body>
 </html>
