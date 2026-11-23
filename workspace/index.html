@@ -1,7 +1,13 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><title>Android Learning Hub | h3llo.io</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1120;--panel:#172033;--border:#334155;--fg:#f1f5f9;--muted:#94a3b8;--accent:#38bdf8}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,sans-serif}main{max-width:1060px;margin:auto;padding:28px 18px}header,.toolbar,.actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}a{color:var(--accent)}.panel,.note{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;margin:16px 0}h1{margin:18px 0 0;font-size:clamp(26px,4vw,38px)}h2{margin-top:0}p,.small{color:var(--muted)}label{display:block;font-size:14px;margin:12px 0 4px}input,textarea,select,button{font:inherit}input,textarea,select{width:100%;background:#0b1120;color:var(--fg);border:1px solid #475569;border-radius:8px;padding:10px}textarea{min-height:140px;resize:vertical}button{background:var(--accent);color:#07121e;border:0;border-radius:8px;padding:10px 16px;font-weight:650;cursor:pointer}button.secondary{background:#334155;color:var(--fg)}button.danger{background:#7f1d1d;color:#fff}button:disabled{opacity:.5;cursor:wait}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note{margin:0;overflow-wrap:anywhere}.note p{white-space:pre-wrap;color:var(--fg)}.note small{color:var(--muted)}.hidden{display:none!important}.message{min-height:24px}#login{max-width:440px}#notes{margin-top:18px}.tag{display:inline-block;border:1px solid var(--border);border-radius:20px;padding:2px 10px;color:var(--muted);font-size:12px;margin-right:6px}
+:root{color-scheme:dark;--bg:#0b1120;--panel:#172033;--border:#334155;--fg:#f1f5f9;--muted:#94a3b8;--accent:#38bdf8}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,sans-serif}main{max-width:1060px;margin:auto;padding:28px 18px}header,.toolbar,.actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}a{color:var(--accent)}.panel,.note{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;margin:16px 0}h1{margin:18px 0 0;font-size:clamp(26px,4vw,38px)}h2{margin-top:0}p,.small{color:var(--muted)}label{display:block;font-size:14px;margin:12px 0 4px}input,textarea,select,button{font:inherit}input,textarea,select{width:100%;background:#0b1120;color:var(--fg);border:1px solid #475569;border-radius:8px;padding:10px}textarea{min-height:140px;resize:vertical}.rich{min-height:180px;background:#0b1120;border:1px solid #475569;border-radius:8px;padding:12px;overflow-wrap:anywhere}.rich img{max-width:100%;height:auto;display:block;margin:12px 0}.rich:focus{outline:2px solid var(--accent)}.note .body img{max-width:100%;height:auto}.note .body{overflow-wrap:anywhere}.pinned{outline:2px solid var(--accent)}button{background:var(--accent);color:#07121e;border:0;border-radius:8px;padding:10px 16px;font-weight:650;cursor:pointer}button.secondary{background:#334155;color:var(--fg)}button.danger{background:#7f1d1d;color:#fff}button:disabled{opacity:.5;cursor:wait}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.note{margin:0;overflow-wrap:anywhere}.note p{white-space:pre-wrap;color:var(--fg)}.note small{color:var(--muted)}.hidden{display:none!important}.message{min-height:24px}#login{max-width:440px}#notes{margin-top:18px}.tag{display:inline-block;border:1px solid var(--border);border-radius:20px;padding:2px 10px;color:var(--muted);font-size:12px;margin-right:6px}
+.note{position:relative;height:270px;min-height:270px;display:flex;flex-direction:column;cursor:pointer;overflow:hidden;padding-right:52px}.note h3{margin:0 0 8px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.note .body{flex:1;min-height:0;overflow:hidden;position:relative;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;white-space:normal;margin:10px 0}.note .body img{max-height:110px;object-fit:contain}.note .actions{margin-top:auto;justify-content:flex-end}.note .pin-icon{position:absolute;top:10px;right:10px;padding:8px;background:transparent;color:var(--fg);border:1px solid transparent;border-radius:8px;line-height:1}.note .pin-icon:hover,.note .pin-icon:focus-visible{background:#334155}.note .pin-icon svg{width:19px;height:19px;display:block}.note .pin-icon[aria-pressed="true"]{color:var(--accent)}.note:focus-visible{outline:2px solid var(--accent)}
+#editor{position:fixed;inset:0;z-index:1000;margin:0;border:0;border-radius:0;background:rgba(2,6,23,.78);padding:clamp(12px,3vw,30px);display:flex;align-items:center;justify-content:center;overflow:hidden}#editor .editor-dialog{background:var(--panel);border:1px solid var(--border);border-radius:16px;width:min(760px,100%);max-height:calc(100dvh - 32px);display:flex;flex-direction:column;box-shadow:0 24px 80px #0009;overflow:hidden}#editor .editor-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 22px;border-bottom:1px solid var(--border)}#editor .editor-header h2{margin:0}#editor #noteForm{overflow-y:auto;padding:4px 22px 22px;overscroll-behavior:contain}#editor .editor-close{padding:4px 12px;font-size:24px;line-height:1.2}body.editor-open{overflow:hidden}@media(max-width:600px){#editor{padding:8px}#editor .editor-dialog{max-height:calc(100dvh - 16px)}#editor #noteForm{padding:4px 14px 16px}}
+.note .note-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:10px;border-top:1px solid #ffffff24;min-height:34px}.note .note-footer .tag{margin:0;font-size:11px;padding:1px 7px}.note .color-dot{width:15px;height:15px;border-radius:50%;border:1px solid #ffffff80;flex-shrink:0}.note .actions{margin-top:7px}.note .body{margin-bottom:6px}
+#editor .editor-metadata{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}#editor .editor-metadata>label:first-child{margin-top:0}
+.rich.drag-over{outline:3px dashed var(--accent);background:#12243a}.rich img{cursor:pointer;border:2px solid transparent;border-radius:5px}.rich img.selected-image{border-color:var(--accent)}#imageResize{width:170px;accent-color:var(--accent)}#imageResize:disabled{opacity:.4}.rich img[data-width]{max-width:100%;height:auto}
+.rich{position:relative}.drop-caret{position:fixed;width:3px;height:24px;background:#38bdf8;border-radius:3px;box-shadow:0 0 0 1px #0b1120,0 0 8px #38bdf8;pointer-events:none;z-index:2000}
 </style></head><body><main>
 <header><a href="/">← h3llo.io</a><span>Private workspace · Android Learning Hub</span><button id="logout" class="secondary hidden" type="button">Log out</button></header>
 <h1>Android Learning Hub</h1><p>Your private Kotlin and Android learning notes, synchronized through your AWS notes API.</p>
@@ -9,29 +15,124 @@
 <section id="login" class="panel"><h2>Sign in</h2><form id="loginForm"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required value="betolix@gmail.com"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required><p class="small">Use your Cognito password. Credentials are sent directly to Amazon Cognito, not to this website's server.</p><button type="submit">Sign in</button></form></section>
 <section id="workspace" class="hidden">
 <div class="toolbar"><h2>My notes</h2><button id="newNote" type="button">+ New note</button></div>
-<div class="toolbar"><input id="search" placeholder="Search notes" aria-label="Search notes" style="max-width:420px"><button id="refresh" class="secondary" type="button">Refresh</button><button id="importStarters" class="secondary" type="button">Import 13 starter notes</button></div>
+<div class="toolbar"><input id="search" placeholder="Search notes" aria-label="Search notes" style="max-width:320px"><select id="categoryFilter" aria-label="Filter by category"><option value="">All categories</option></select><select id="tagFilter" aria-label="Filter by tag"><option value="">All tags</option></select><button id="refresh" class="secondary" type="button">Refresh</button><button id="importStarters" class="secondary" type="button">Import 13 starter notes</button></div>
 <div id="notes" class="grid"></div>
-<section id="editor" class="panel hidden"><h2 id="editorTitle">New note</h2><form id="noteForm"><input id="noteId" type="hidden"><label for="title">Title</label><input id="title" maxlength="200" required><label for="category">Category</label><select id="category"><option>Kotlin</option><option>Concurrency</option><option>Architecture</option><option>Jetpack Compose</option><option>Quality</option><option>Backend</option><option>Projects</option><option>Roadmap</option></select><label for="status">Progress</label><select id="status"><option>To Learn</option><option>Learning</option><option>Review</option><option>Confident</option></select><label for="body">Notes</label><textarea id="body" maxlength="30000"></textarea><div class="actions"><button type="submit">Save note</button><button id="cancel" class="secondary" type="button">Cancel</button></div></form></section>
+<section id="editor" class="hidden" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><div class="editor-dialog"><div class="editor-header"><h2 id="editorTitle">New note</h2><button id="closeEditor" class="secondary editor-close" type="button" aria-label="Save and close">×</button></div><form id="noteForm"><input id="noteId" type="hidden"><label for="title">Title</label><input id="title" maxlength="200" required><label>Note content</label><div class="toolbar"><button type="button" class="secondary" id="undoBtn" disabled title="Undo (Ctrl/⌘+Z)">Undo</button><button type="button" class="secondary" id="redoBtn" disabled title="Redo (Ctrl+Y or ⌘+Shift+Z)">Redo</button><button type="button" class="secondary" id="boldBtn">Bold</button><button type="button" class="secondary" id="italicBtn">Italic</button><select id="fontFamily" aria-label="Font family" style="width:auto"><option value="">Font</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="monospace">Monospace</option></select><select id="fontSize" aria-label="Font size" style="width:auto"><option value="">Size</option><option value="small">Small</option><option value="normal">Normal</option><option value="large">Large</option><option value="xlarge">Extra large</option></select><label for="fontColor" style="margin:0">Text color</label><input id="fontColor" type="color" value="#f1f5f9" style="width:44px;height:40px;padding:3px"><label for="highlightColor" style="margin:0">Highlight</label><input id="highlightColor" type="color" value="#ffff00" style="width:44px;height:40px;padding:3px"><button type="button" class="secondary" id="imageBtn">Insert image</button><label for="imageResize" style="margin:0">Image width</label><input id="imageResize" type="range" min="15" max="100" step="5" value="100" disabled aria-label="Selected image width percentage"><input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden"></div><div id="bodyRich" class="rich" contenteditable="true" role="textbox" aria-label="Note content" aria-multiline="true"></div><div class="editor-metadata"><label for="category">Category</label><select id="category"><option>Kotlin</option><option>Concurrency</option><option>Architecture</option><option>Jetpack Compose</option><option>Quality</option><option>Backend</option><option>Projects</option><option>Roadmap</option></select><label for="status">Progress</label><select id="status"><option>To Learn</option><option>Learning</option><option>Review</option><option>Confident</option></select><label for="tags">Tags (comma-separated)</label><input id="tags" placeholder="Kotlin, Important, Interview Prep"><label for="color">Card color</label><input id="color" type="color" value="#172033" style="width:80px;height:44px;padding:4px"><label><input id="pinned" type="checkbox" style="width:auto"> Pin this note</label></div><div class="actions"><button type="submit">Save note</button><button id="cancel" class="secondary" type="button">Discard changes</button></div></form></div></section>
 </section></main>
 <script>
 'use strict';
 const REGION='us-east-1',CLIENT='r0civi0co7ee2hs3154g1vsnf',API='https://v2o5gtwin6.execute-api.us-east-1.amazonaws.com/prod/notes';
 const AUTH='https://cognito-idp.'+REGION+'.amazonaws.com/';
 const $=id=>document.getElementById(id);
-let tokens=null,notes=[];
+let tokens=null,notes=[],editorDirty=false,editorSaving=false,editorOpening=false,selectedImage=null,savedImageRange=null,imageUploading=false,movingImage=null,dropRange=null,history=[],historyIndex=-1,restoringHistory=false,typingTimer=null;
 function message(text){$('message').textContent=text||''}
 function showSignedIn(yes){$('login').classList.toggle('hidden',yes);$('workspace').classList.toggle('hidden',!yes);$('logout').classList.toggle('hidden',!yes)}
 function signOut(){tokens=null;sessionStorage.removeItem('h3llo-workspace-session');$('password').value='';notes=[];showSignedIn(false);message('Signed out.')}
 async function cognito(action,payload){const response=await fetch(AUTH,{method:'POST',headers:{'Content-Type':'application/x-amz-json-1.1','X-Amz-Target':'AWSCognitoIdentityProviderService.'+action},body:JSON.stringify(payload)});const data=await response.json();if(!response.ok)throw Error(data.message||data.Message||'Authentication failed');return data}
 async function signIn(email,password){const data=await cognito('InitiateAuth',{AuthFlow:'USER_PASSWORD_AUTH',ClientId:CLIENT,AuthParameters:{USERNAME:email,PASSWORD:password}});if(data.ChallengeName)throw Error('Cognito requires an additional sign-in challenge: '+data.ChallengeName+'. Complete it through the AWS CLI before using this page.');if(!data.AuthenticationResult?.IdToken)throw Error('No ID token returned');tokens={...data.AuthenticationResult,obtainedAt:Date.now()};sessionStorage.setItem('h3llo-workspace-session',JSON.stringify(tokens));$('password').value='';showSignedIn(true);await loadNotes()}
 async function getIdToken(){if(!tokens)throw Error('Please sign in');if(Date.now()-tokens.obtainedAt<Math.max(60,(tokens.ExpiresIn||3600)-120)*1000)return tokens.IdToken;if(!tokens.RefreshToken){signOut();throw Error('Session expired. Sign in again.')}const refreshed=await cognito('InitiateAuth',{AuthFlow:'REFRESH_TOKEN_AUTH',ClientId:CLIENT,AuthParameters:{REFRESH_TOKEN:tokens.RefreshToken}});tokens={...tokens,...refreshed.AuthenticationResult,obtainedAt:Date.now()};sessionStorage.setItem('h3llo-workspace-session',JSON.stringify(tokens));return tokens.IdToken}
-async function api(method='GET',payload=null,id=null){const token=await getIdToken();const url=API+(id?'?id='+encodeURIComponent(id):'');const response=await fetch(url,{method,headers:{Authorization:'Bearer '+token,...(payload?{'Content-Type':'application/json'}:{})},...(payload?{body:JSON.stringify(payload)}:{})});const data=await response.json().catch(()=>({}));if(response.status===401){signOut();throw Error('Session rejected. Please sign in again.')}if(!response.ok)throw Error(data.error||data.message||'API request failed: '+response.status);return data}
+async function api(method='GET',payload=null,id=null,endpoint=''){const token=await getIdToken();const url=(endpoint?API.replace(/\/notes$/,'')+endpoint:API)+(id?'?id='+encodeURIComponent(id):'');const response=await fetch(url,{method,headers:{Authorization:'Bearer '+token,...(payload?{'Content-Type':'application/json'}:{})},...(payload?{body:JSON.stringify(payload)}:{})});const data=await response.json().catch(()=>({}));if(response.status===401){signOut();throw Error('Session rejected. Please sign in again.')}if(!response.ok)throw Error(data.error||data.message||'API request failed: '+response.status);return data}
 async function loadNotes(){message('Loading notes…');const data=await api();notes=data.notes||[];render();message(data.truncated?'Showing first page of notes.':'')}
-function render(){const root=$('notes');root.replaceChildren();const query=$('search').value.trim().toLowerCase();const filtered=notes.filter(n=>[n.title,n.body,n.category,n.status].some(v=>String(v||'').toLowerCase().includes(query)));if(!filtered.length){const p=document.createElement('p');p.textContent='No notes found. Create your first note.';root.append(p);return}for(const n of filtered){const card=document.createElement('article');card.className='note';const h=document.createElement('h3');h.textContent=n.title||'Untitled';const meta=document.createElement('div');for(const value of [n.category,n.status]){const tag=document.createElement('span');tag.className='tag';tag.textContent=value||'';meta.append(tag)}const body=document.createElement('p');body.textContent=n.body||'';const actions=document.createElement('div');actions.className='actions';const edit=document.createElement('button');edit.className='secondary';edit.textContent='Edit';edit.onclick=()=>openEditor(n);const del=document.createElement('button');del.className='danger';del.textContent='Delete';del.onclick=()=>deleteNote(n);actions.append(edit,del);card.append(h,meta,body,actions);root.append(card)}}
-function openEditor(n){$('editor').classList.remove('hidden');$('editorTitle').textContent=n?'Edit note':'New note';$('noteId').value=n?.noteId||'';$('title').value=n?.title||'';$('body').value=n?.body||'';$('category').value=n?.category||'Kotlin';$('status').value=n?.status||'To Learn';$('editor').scrollIntoView({behavior:'smooth'});$('title').focus()}
+const IMAGE_KEY_RE=/^[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/;
+function safeHtml(raw){
+ const doc=new DOMParser().parseFromString(String(raw||''),'text/html');
+ const allowed=new Set(['P','DIV','BR','B','STRONG','I','EM','U','H2','H3','UL','OL','LI','BLOCKQUOTE','PRE','CODE','IMG','A','SPAN']);
+ function clean(parent){
+  for(const node of [...parent.childNodes]){
+   if(node.nodeType===8){node.remove();continue}
+   if(node.nodeType!==1){if(node.nodeType!==3)node.remove();continue}
+   const tag=node.tagName;
+   if(['SCRIPT','STYLE','SVG','MATH','IFRAME','OBJECT','EMBED','FORM','INPUT','BUTTON','VIDEO','AUDIO','TEMPLATE','NOSCRIPT'].includes(tag)){node.remove();continue}
+   if(!allowed.has(tag)){clean(node);node.replaceWith(...node.childNodes);continue}
+   const key=node.getAttribute('data-key');
+   const width=node.getAttribute('data-width');
+   const href=node.getAttribute('href');
+   const font=node.getAttribute('data-font'),size=node.getAttribute('data-size'),ink=node.getAttribute('data-color'),highlight=node.getAttribute('data-highlight');
+   for(const attr of [...node.attributes])node.removeAttribute(attr.name);
+   if(tag==='IMG'){
+    if(!key||!IMAGE_KEY_RE.test(key)){node.remove();continue}
+    node.setAttribute('data-key',key);
+    if(width&&/^\d{1,3}$/.test(width)){const w=Number(width);if(w>=15&&w<=100)node.setAttribute('data-width',String(w))}
+   }
+   if(tag==='SPAN'){
+    if(['Arial','Georgia','Times New Roman','Verdana','monospace'].includes(font))node.setAttribute('data-font',font);
+    if(['small','normal','large','xlarge'].includes(size))node.setAttribute('data-size',size);
+    if(/^#[0-9a-fA-F]{6}$/.test(ink||''))node.setAttribute('data-color',ink);
+    if(/^#[0-9a-fA-F]{6}$/.test(highlight||''))node.setAttribute('data-highlight',highlight);
+   }
+   if(tag==='A'&&href){try{const u=new URL(href);if(['https:','http:'].includes(u.protocol)){node.setAttribute('href',u.href);node.setAttribute('rel','noopener noreferrer');node.setAttribute('target','_blank')}}catch{}}
+   clean(node);
+  }
+ }
+ clean(doc.body);return doc.body.innerHTML;
+}
+function applyTextStyles(root){
+ for(const el of root.querySelectorAll('span')){
+  const fonts={Arial:'Arial, sans-serif',Georgia:'Georgia, serif','Times New Roman':'"Times New Roman", serif',Verdana:'Verdana, sans-serif',monospace:'monospace'};
+  const sizes={small:'.8em',normal:'1em',large:'1.3em',xlarge:'1.7em'};
+  if(fonts[el.dataset.font])el.style.fontFamily=fonts[el.dataset.font];
+  if(sizes[el.dataset.size])el.style.fontSize=sizes[el.dataset.size];
+  if(/^#[0-9a-f]{6}$/i.test(el.dataset.color||''))el.style.color=el.dataset.color;
+  if(/^#[0-9a-f]{6}$/i.test(el.dataset.highlight||''))el.style.backgroundColor=el.dataset.highlight;
+ }
+}
+function bodyIsHtml(n){return typeof n.body==="string"&&n.body.startsWith("<!--rich-->")}
+async function hydrateImages(root){for(const img of root.querySelectorAll("img[data-key]")){try{const result=await api("GET",null,null,"/images?key="+encodeURIComponent(img.dataset.key));img.src=result.url;img.alt="Note image";if(img.dataset.width)img.style.width=img.dataset.width+"%"}catch{img.alt="Image unavailable"}}}
+function refreshFilters(){const categories=[...new Set(notes.map(n=>n.category).filter(Boolean))].sort(),tags=[...new Set(notes.flatMap(n=>Array.isArray(n.tags)?n.tags:[]))].sort();for(const [id,values,label] of [["categoryFilter",categories,"All categories"],["tagFilter",tags,"All tags"]]){const el=$(id),current=el.value;el.replaceChildren(new Option(label,""),...values.map(v=>new Option(v,v)));el.value=values.includes(current)?current:""}}
+function render(){refreshFilters();const root=$('notes');root.replaceChildren();const query=$('search').value.trim().toLowerCase();const filtered=notes.filter(n=>(!$("categoryFilter").value||n.category===$("categoryFilter").value)&&(!$("tagFilter").value||(n.tags||[]).includes($("tagFilter").value))&&[n.title,n.body,n.category,n.status,...(n.tags||[])].some(v=>String(v||"").toLowerCase().includes(query))).sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));if(!filtered.length){const p=document.createElement('p');p.textContent='No notes found. Create your first note.';root.append(p);return}for(const n of filtered){const card=document.createElement('article');card.className='note'+(n.pinned?' pinned':'');card.style.backgroundColor=/^#[0-9a-f]{6}$/i.test(n.color||'')?n.color:'#172033';const h=document.createElement('h3');h.textContent=n.title||'Untitled';const meta=document.createElement('div');meta.className='note-footer';for(const value of [n.category]){const tag=document.createElement('span');tag.className='tag';tag.textContent=value||'';meta.append(tag)}const body=document.createElement('p');body.className='body';if(bodyIsHtml(n)){body.innerHTML=safeHtml(n.body.slice(11));applyTextStyles(body);hydrateImages(body)}else body.textContent=n.body||'';const actions=document.createElement('div');actions.className='actions';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','Edit '+(n.title||'Untitled'));card.addEventListener('click',e=>{if(!e.target.closest('button'))openEditor(n)});card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target===card){e.preventDefault();openEditor(n)}});const del=document.createElement('button');del.className='danger';del.textContent='Delete';del.onclick=()=>deleteNote(n);const pin=document.createElement('button');pin.className='pin-icon';pin.type='button';pin.setAttribute('aria-label',n.pinned?'Unpin note':'Pin note');pin.setAttribute('aria-pressed',String(!!n.pinned));pin.title=n.pinned?'Unpin note':'Pin note';pin.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3l5 5-4 1-3 5-4 1-5 6 1-8 4-4 1-4z"/><path d="m2 22 6-6"/></svg>';pin.onclick=async()=>{try{await saveNote({...n,pinned:!n.pinned});await loadNotes()}catch(e){message(e.message)}};actions.append(del);for(const t of n.tags||[]){const tag=document.createElement('span');tag.className='tag';tag.textContent='#'+t;meta.append(tag)}const dot=document.createElement('span');dot.className='color-dot';dot.style.backgroundColor=/^#[0-9a-f]{6}$/i.test(n.color||'')?n.color:'#172033';dot.title='Card color';meta.append(dot);card.append(pin,h,body,meta,actions);root.append(card)}}
+async function saveNote(n){return api('POST',{id:n.noteId||n.id,title:n.title,body:n.body,category:n.category,status:n.status,color:n.color||'#172033',pinned:!!n.pinned,tags:n.tags||[]})}
+const HISTORY_FIELDS=['title','category','status','tags','color','pinned'];
+function snapshotEditor(){
+ const fields={};for(const id of HISTORY_FIELDS)fields[id]=id==='pinned'?$(id).checked:$(id).value;
+ return {html:safeHtml($('bodyRich').innerHTML),fields};
+}
+function updateHistoryButtons(){$('undoBtn').disabled=historyIndex<=0;$('redoBtn').disabled=historyIndex>=history.length-1}
+function flushTyping(){if(typingTimer!==null){clearTimeout(typingTimer);typingTimer=null;recordHistory()}}
+function scheduleTyping(){if(restoringHistory||editorOpening)return;editorDirty=true;if(typingTimer!==null)clearTimeout(typingTimer);typingTimer=setTimeout(()=>{typingTimer=null;recordHistory()},1200)}
+function recordHistory(){
+ if(restoringHistory||editorOpening||$('editor').classList.contains('hidden'))return;
+ const snap=snapshotEditor(),prev=history[historyIndex];
+ if(prev&&snap.html===prev.html&&HISTORY_FIELDS.every(k=>snap.fields[k]===prev.fields[k]))return;
+ history=history.slice(0,historyIndex+1);history.push(snap);
+ if(history.length>100)history.shift();
+ historyIndex=history.length-1;editorDirty=true;updateHistoryButtons();
+}
+async function hydrateImagesForOne(img){try{const result=await api('GET',null,null,'/images?key='+encodeURIComponent(img.dataset.key));if(img.isConnected){img.src=result.url;img.alt='Note image';if(img.dataset.width)img.style.width=img.dataset.width+'%'}}catch{img.alt='Image unavailable'}}
+function restoreHistory(index){
+ if(typingTimer!==null){const direction=index<historyIndex?-1:1;flushTyping();index=historyIndex+direction}
+ if(imageUploading||editorSaving||index<0||index>=history.length)return;
+ restoringHistory=true;historyIndex=index;
+ const snap=history[index];selectImage(null);savedImageRange=null;clearDropCaret();
+ const root=$('bodyRich');
+ // Reuse already loaded image URLs so undo never flashes empty image placeholders.
+ const urls=new Map([...root.querySelectorAll('img[data-key]')].filter(img=>img.src).map(img=>[img.dataset.key,img.src]));
+ root.innerHTML=safeHtml(snap.html);applyTextStyles(root);
+ for(const img of root.querySelectorAll('img[data-key]')){if(urls.has(img.dataset.key)){img.src=urls.get(img.dataset.key);img.alt='Note image';if(img.dataset.width)img.style.width=img.dataset.width+'%'}else void hydrateImagesForOne(img)}
+ for(const id of HISTORY_FIELDS){if(id==='pinned')$(id).checked=snap.fields[id];else $(id).value=snap.fields[id]}
+ editorDirty=true;updateHistoryButtons();$('bodyRich').focus();restoringHistory=false;
+}
+$('undoBtn').onclick=()=>restoreHistory(historyIndex-1);
+$('redoBtn').onclick=()=>restoreHistory(historyIndex+1);
+$('noteForm').addEventListener('keydown',e=>{
+ if(!(e.ctrlKey||e.metaKey)||e.altKey||e.key.toLowerCase()!=='z'&&e.key.toLowerCase()!=='y')return;
+ const undo=e.key.toLowerCase()==='z'&&!e.shiftKey;
+ const redo=e.key.toLowerCase()==='y'||e.key.toLowerCase()==='z'&&e.shiftKey;
+ if(undo||redo){e.preventDefault();restoreHistory(historyIndex+(undo?-1:1))}
+});
+$('bodyRich').addEventListener('beforeinput',e=>{
+ if(e.inputType==='historyUndo'||e.inputType==='historyRedo'){
+  e.preventDefault();restoreHistory(historyIndex+(e.inputType==='historyUndo'?-1:1));
+ }
+});
+function openEditor(n){if(typingTimer!==null){clearTimeout(typingTimer);typingTimer=null}selectedImage=null;$('imageResize').disabled=true;if(!$('editor').classList.contains('hidden')&&editorDirty){message('Save or cancel the current note before opening another.');return}editorOpening=true;editorDirty=false;$('editor').classList.remove('hidden');document.body.classList.add('editor-open');$('editorTitle').textContent=n?'Edit note':'New note';$('noteId').value=n?.noteId||'';$('title').value=n?.title||'';$('bodyRich').innerHTML=n?(bodyIsHtml(n)?safeHtml(n.body.slice(11)):safeHtml((n.body||'').split('\n').map(line=>'<p>'+line.replaceAll('&','&amp;').replaceAll('<','&lt;')+'</p>').join(''))):'';applyTextStyles($('bodyRich'));hydrateImages($('bodyRich'));$('tags').value=(n?.tags||[]).join(', ');$('color').value=/^#[0-9a-f]{6}$/i.test(n?.color||'')?n.color:'#172033';$('pinned').checked=!!n?.pinned;$('category').value=n?.category||'Kotlin';$('status').value=n?.status||'To Learn';$('title').focus();history=[snapshotEditor()];historyIndex=0;updateHistoryButtons();setTimeout(()=>{editorOpening=false},0)}
 async function deleteNote(n){if(!confirm('Delete "'+n.title+'"?'))return;try{await api('DELETE',null,n.noteId);await loadNotes()}catch(e){message(e.message)}}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;message('Signing in…');try{await signIn($('email').value.trim(),$('password').value)}catch(err){message(err.message)}finally{button.disabled=false}});
-$('noteForm').addEventListener('submit',async e=>{e.preventDefault();const button=e.submitter;button.disabled=true;try{await api('POST',{id:$('noteId').value||undefined,title:$('title').value,body:$('body').value,category:$('category').value,status:$('status').value});$('editor').classList.add('hidden');await loadNotes()}catch(err){message(err.message)}finally{button.disabled=false}});
+function closeEditorView(){if(typingTimer!==null){clearTimeout(typingTimer);typingTimer=null}document.body.classList.remove('editor-open');$('editor').classList.add('hidden')}
+function editorPayload(){return {id:$('noteId').value||undefined,title:$('title').value,body:'<!--rich-->'+safeHtml($('bodyRich').innerHTML),category:$('category').value,status:$('status').value,color:$('color').value,pinned:$('pinned').checked,tags:[...new Set($('tags').value.split(',').map(x=>x.trim()).filter(Boolean))].slice(0,20)}}
+async function saveEditor(){flushTyping();if(imageUploading){message('Wait for the image upload to finish before saving.');return}if(editorSaving||$('editor').classList.contains('hidden'))return;const title=$('title').value.trim();if(!title){message('A title is required before saving.');$('title').focus();return}editorSaving=true;try{await saveNote(editorPayload());editorDirty=false;closeEditorView();await loadNotes()}catch(err){message('Save failed: '+err.message+'. Your editor remains open.')}finally{editorSaving=false}}
+$('noteForm').addEventListener('submit',async e=>{e.preventDefault();await saveEditor()});
+$('noteForm').addEventListener('input',e=>{if(restoringHistory)return;if(e.target===$('bodyRich')||$('bodyRich').contains(e.target)||e.target===$('title')||e.target===$('tags'))scheduleTyping();else{flushTyping();recordHistory()}});$('noteForm').addEventListener('change',e=>{if(!restoringHistory&&e.target!==$('bodyRich')&&e.target!==$('title')&&e.target!==$('tags')){flushTyping();recordHistory()}});
+document.addEventListener('pointerdown',e=>{if(editorOpening||editorSaving||$('editor').classList.contains('hidden'))return;if($('editor').querySelector('.editor-dialog').contains(e.target))return;if(e.target.closest('#logout'))return;if(editorDirty)void saveEditor();else closeEditorView()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('editor').classList.contains('hidden')){e.preventDefault();if(editorDirty)void saveEditor();else closeEditorView()}});
 
 async function importStarters(){
  const button=$('importStarters');button.disabled=true;
@@ -55,7 +156,118 @@ async function importStarters(){
  finally{button.disabled=false}
 }
 $('importStarters').onclick=importStarters;
-$('newNote').onclick=()=>openEditor(null);$('cancel').onclick=()=>$('editor').classList.add('hidden');$('refresh').onclick=()=>loadNotes().catch(e=>message(e.message));$('search').oninput=render;$('logout').onclick=signOut;
+$('categoryFilter').onchange=render;$('tagFilter').onchange=render;
+$('boldBtn').onclick=()=>{document.execCommand('bold');markEditorDirty()};$('italicBtn').onclick=()=>{document.execCommand('italic');markEditorDirty()};
+function markEditorDirty(){flushTyping();editorDirty=true;recordHistory()}
+function selectImage(img){
+ if(selectedImage)selectedImage.classList.remove('selected-image');
+ selectedImage=img&&$('bodyRich').contains(img)?img:null;
+ $('imageResize').disabled=!selectedImage;
+ if(selectedImage){selectedImage.classList.add('selected-image');$('imageResize').value=selectedImage.dataset.width||'100'}
+}
+$('bodyRich').addEventListener('click',e=>selectImage(e.target.closest('img[data-key]')));
+$('imageResize').addEventListener('input',()=>{if(!selectedImage)return;selectedImage.dataset.width=$('imageResize').value;selectedImage.style.width=$('imageResize').value+'%';markEditorDirty()});
+function saveCaret(){const sel=window.getSelection();if(sel&&sel.rangeCount&&$('bodyRich').contains(sel.anchorNode))savedImageRange=sel.getRangeAt(0).cloneRange()}
+$('bodyRich').addEventListener('keyup',saveCaret);
+$('bodyRich').addEventListener('mouseup',saveCaret);
+$('imageBtn').addEventListener('pointerdown',saveCaret);
+$('imageBtn').onclick=()=>$('imageFile').click();
+function formatSelection(kind,value){
+ const root=$('bodyRich'),sel=window.getSelection();
+ let range=sel&&sel.rangeCount?sel.getRangeAt(0):null;
+ if(!range||range.collapsed||!root.contains(range.commonAncestorContainer)){message('Select some text first to apply formatting.');return}
+ flushTyping();const span=document.createElement('span');
+ span.dataset[kind]=value;
+ const fragment=range.extractContents();span.append(fragment);range.insertNode(span);
+ applyTextStyles(span.parentElement||root);
+ sel.removeAllRanges();const next=document.createRange();next.selectNodeContents(span);sel.addRange(next);
+ markEditorDirty();
+}
+for(const [id,kind] of [['fontFamily','font'],['fontSize','size']]){
+ $(id).addEventListener('change',()=>{if($(id).value)formatSelection(kind,$(id).value);$(id).value=''});
+}
+$('fontColor').addEventListener('input',()=>formatSelection('color',$('fontColor').value));
+$('highlightColor').addEventListener('input',()=>formatSelection('highlight',$('highlightColor').value));
+
+function insertionRangeAt(x,y){if(document.caretRangeFromPoint)return document.caretRangeFromPoint(x,y);if(document.caretPositionFromPoint){const p=document.caretPositionFromPoint(x,y);if(p){const r=document.createRange();r.setStart(p.offsetNode,p.offset);r.collapse(true);return r}}return null}
+const dropCaret=document.createElement('span');dropCaret.className='drop-caret hidden';dropCaret.setAttribute('aria-hidden','true');document.body.append(dropCaret);
+function clearDropCaret(){dropCaret.classList.add('hidden');dropRange=null;$('bodyRich').classList.remove('drag-over')}
+function showDropCaret(x,y){
+ const root=$('bodyRich'),r=insertionRangeAt(x,y);
+ if(!r||!root.contains(r.commonAncestorContainer)){clearDropCaret();return}
+ dropRange=r.cloneRange();
+ // Use the actual browser caret geometry, falling back to the pointer for empty lines.
+ const rect=r.getClientRects()[0]||r.getBoundingClientRect();
+ const rootRect=root.getBoundingClientRect();
+ const caretX=rect&&Number.isFinite(rect.left)&&rect.height>0?rect.left:x;
+ const caretY=rect&&Number.isFinite(rect.top)&&rect.height>0?rect.top:y-12;
+ dropCaret.style.left=Math.max(rootRect.left+3,Math.min(rootRect.right-5,caretX))+'px';
+ dropCaret.style.top=Math.max(rootRect.top+3,Math.min(rootRect.bottom-22,caretY))+'px';
+ dropCaret.style.height=Math.max(18,Math.min(30,rect?.height||24))+'px';
+ dropCaret.classList.remove('hidden');
+}
+function insertAtRange(node,range){
+ const root=$('bodyRich');root.focus();
+ if(range&&root.contains(range.commonAncestorContainer)){range.deleteContents();range.insertNode(node)}
+ else root.append(node);
+ const after=document.createRange();after.setStartAfter(node);after.collapse(true);
+ const sel=window.getSelection();sel.removeAllRanges();sel.addRange(after);savedImageRange=after.cloneRange();
+ markEditorDirty();
+}
+async function uploadImage(file,range){
+ if(!file||!['image/png','image/jpeg','image/webp','image/gif'].includes(file.type)){message('Use PNG, JPEG, WebP or GIF images.');return}
+ if(file.size>5*1024*1024){message('Maximum image size is 5 MB');return}
+ if(imageUploading){message('Another image is uploading. Please wait.');return}
+ imageUploading=true;
+ try{
+  message('Uploading image…');
+  const upload=await api('POST',{contentType:file.type},null,'/images');
+  const form=new FormData();for(const [k,v] of Object.entries(upload.upload.fields))form.append(k,v);form.append('file',file);
+  const response=await fetch(upload.upload.url,{method:'POST',body:form});
+  if(!response.ok)throw Error('S3 upload failed: '+response.status);
+  const view=await api('GET',null,null,'/images?key='+encodeURIComponent(upload.key));
+  const img=document.createElement('img');img.dataset.key=upload.key;img.src=view.url;img.alt='Note image';
+  insertAtRange(img,range);selectImage(img);
+  message('Image uploaded. Click outside the editor to save.');
+ }catch(e){message(e.message)}finally{imageUploading=false}
+}
+$('imageFile').onchange=async()=>{const file=$('imageFile').files[0];await uploadImage(file,savedImageRange);$('imageFile').value=''};
+$('bodyRich').addEventListener('paste',e=>{const file=[...(e.clipboardData?.files||[])].find(f=>f.type.startsWith('image/'));if(file){e.preventDefault();saveCaret();void uploadImage(file,savedImageRange)}});
+$('bodyRich').addEventListener('dragstart',e=>{
+ const img=e.target.closest('img[data-key]');
+ if(!img)return;
+ flushTyping();movingImage=img;
+ e.dataTransfer.effectAllowed='move';
+ e.dataTransfer.setData('text/plain','h3llo-internal-image');
+ selectImage(img);
+});
+$('bodyRich').addEventListener('dragend',()=>{movingImage=null;clearDropCaret()});
+$('bodyRich').addEventListener('dragover',e=>{
+ if(movingImage||[...e.dataTransfer.types].includes('Files')){
+  e.preventDefault();e.dataTransfer.dropEffect=movingImage?'move':'copy';
+  $('bodyRich').classList.add('drag-over');showDropCaret(e.clientX,e.clientY);
+ }
+});
+$('bodyRich').addEventListener('dragleave',e=>{if(!e.currentTarget.contains(e.relatedTarget))clearDropCaret()});
+$('bodyRich').addEventListener('drop',e=>{
+ e.preventDefault();
+ const range=dropRange||insertionRangeAt(e.clientX,e.clientY);clearDropCaret();
+ if(movingImage){
+  const img=movingImage;movingImage=null;
+  if(!range||!$('bodyRich').contains(range.commonAncestorContainer))return;
+  if(img.contains(range.commonAncestorContainer))return;
+  // Preserve the same image node and its persisted S3 key and width.
+  const target=range.cloneRange();target.collapse(true);
+  img.remove();target.insertNode(img);
+  selectImage(img);markEditorDirty();
+  message('Image moved. Click outside to save.');
+  return;
+ }
+ const file=[...e.dataTransfer.files].find(f=>f.type.startsWith('image/'));
+ if(file)void uploadImage(file,range);
+});
+
+$('newNote').onclick=()=>openEditor(null);$('cancel').onclick=()=>{editorDirty=false;closeEditorView()};$('closeEditor').onclick=()=>{if(editorDirty)void saveEditor();else closeEditorView()};$('refresh').onclick=()=>loadNotes().catch(e=>message(e.message));$('search').oninput=render;$('logout').onclick=signOut;
 try{tokens=JSON.parse(sessionStorage.getItem('h3llo-workspace-session')||'null')}catch{tokens=null}
 if(tokens?.IdToken){showSignedIn(true);loadNotes().catch(e=>message(e.message))}
 </script></body></html>
