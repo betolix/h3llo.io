@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "notes": [
+    {
+      "id": "starter-0",
+      "title": "Kotlin null safety",
+      "category": "Kotlin",
+      "body": "Safe-call (?.), Elvis (?:), nullable/non-nullable types and null coalescing. Compare Kotlin with Java.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-1",
+      "title": "Higher-order and scope functions",
+      "category": "Kotlin",
+      "body": "Higher-order functions, lambdas, inline functions, extension functions. Scope functions: let, run, also, with, apply.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-2",
+      "title": "Kotlin language essentials",
+      "category": "Kotlin",
+      "body": "Data classes vs normal classes, objects, immutability, type inference, collections, map vs hash map, marker interfaces.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-3",
+      "title": "Coroutines and asynchronous work",
+      "category": "Concurrency",
+      "body": "Coroutine builders: launch vs async. Suspend functions, coroutine scope, structured concurrency, worker services vs internet services.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-4",
+      "title": "RxJava to coroutines and Flow",
+      "category": "Concurrency",
+      "body": "Compare RxJava/Rx programming, AsyncTask and coroutines. Reactive programming with Flow and StateFlow.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-5",
+      "title": "Android architecture",
+      "category": "Architecture",
+      "body": "MVI vs MVVM and unidirectional data flow (UDF). Design patterns, maintainable architecture, lifecycle and separation of concerns.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-6",
+      "title": "UI state and state management",
+      "category": "Architecture",
+      "body": "Where should UI state live? How to update state safely across threads? How does state drive the UI?",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-7",
+      "title": "Jetpack Compose layouts",
+      "category": "Jetpack Compose",
+      "body": "Column, Row and Box. Vertical/horizontal arrangement and alignment. Compose basics and Material UI.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-8",
+      "title": "Testing and CI/CD",
+      "category": "Quality",
+      "body": "Unit testing with MockK, TDD, automated testing, continuous integration and deployment.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-9",
+      "title": "Performance and UX",
+      "category": "Quality",
+      "body": "UI responsiveness, performance optimization, multithreaded code and clean architecture.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-10",
+      "title": "Backend and API integration",
+      "category": "Backend",
+      "body": "REST APIs, API gateway, authentication/authorization, microservices and database relationships.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-11",
+      "title": "EcoEats project",
+      "category": "Projects",
+      "body": "Revisit EcoEats and review its architecture. Capture implementation decisions, blockers and lessons learned.",
+      "status": "To Learn"
+    },
+    {
+      "id": "starter-12",
+      "title": "Android learning roadmap",
+      "category": "Roadmap",
+      "body": "Review Compose course, Android architecture, Kotlin reference material, and build a portfolio-ready Android app.",
+      "status": "To Learn"
+    }
+  ]
+}
